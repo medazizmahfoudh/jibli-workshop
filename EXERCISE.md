@@ -1,36 +1,29 @@
-# Step 26: entity
+# Step 27: repository
 
 ## Goal
 
-Orders vanish when the app stops. Store them in a database. With JPA you describe the table with a Java class, and Hibernate writes the SQL. We use H2, a database that lives in memory, so there is nothing to install. (Slide: Spring Boot 6/14, entity.)
+Saving and loading orders is always the same: save, find all, find one, delete. Spring Data writes that code for you if you only say which entity and which type of id you use. (Slide: Spring Boot 7/14, repository.)
 
 ## Tasks
 
-- [ ] Turn `tn.jibli.model.Order` into a JPA entity: `@Entity`, and `@Table(name = "orders")`.
-- [ ] Add a `Long id` field with `@Id` and `@GeneratedValue`, and make `getId()` return it (a stub is already there).
-- [ ] Add a `protected Order()` constructor for JPA. It must not increase `createdCount`.
-- [ ] Create `src/main/resources/application.properties` with an in-memory H2 database (`jdbc:h2:mem:jibli`), `spring.jpa.show-sql=true` and the H2 console enabled.
+- [ ] Replace the class `OrderRepository` with an interface `OrderRepository extends JpaRepository<Order, Long>`. It stays in `tn.jibli.repository`.
+- [ ] Do not write any method, nothing else is needed.
+- [ ] Look at `save`, `findAll`, `findById` and `deleteById` in your IDE's autocomplete. You never wrote them.
 
 ## Hints
 
-1. The annotations come from `jakarta.persistence`.
-2. `order` is a reserved word in SQL, that is why the table is called `orders`.
-3. JPA creates objects by itself when it reads a row. It needs an empty constructor, and it does not go through your counter.
-4. The property names are `spring.datasource.url`, `spring.jpa.show-sql` and `spring.h2.console.enabled`.
-5. Run the app and open <http://localhost:8080/h2-console> with the same JDBC URL to see the `orders` table.
+1. `JpaRepository<T, ID>` takes the entity type and the type of its `@Id` field.
+2. Remove `@Repository` and the class body. An interface has no body for these methods, Spring generates the implementation at startup.
+3. `findById` returns an `Optional<Order>`, because the id may not exist.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step26*'
+./mvnw -q test -Dtest='Step27*'
 ```
 
-Green means an order can be saved and read back, the table is called `orders`, JPA does not touch the counter, and the three properties are set.
+Green means you can save, list, find and delete orders through your interface.
 
 ## Stretch
 
-- Look at the SQL printed in the console when the test runs. Which statements did Hibernate write for you?
-
-## Solution notes
-
-An entity is a normal class with a few labels that tell Hibernate how it maps to a table: the class is the table, each field is a column, each object is a row. `@GeneratedValue` lets the database pick the id, so a new order has `id == null` until it is saved. A common mistake is forgetting the empty constructor, and Hibernate fails with an error about instantiating the entity.
+- Try adding `List<Order> findByRestaurant(String restaurant);` and write a quick test. You will need it in step 34.

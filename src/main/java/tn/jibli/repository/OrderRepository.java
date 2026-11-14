@@ -2,7 +2,7 @@ package tn.jibli.repository;
 
 import org.springframework.stereotype.Repository;
 
-// the data layer: reads and writes the database. A real repository comes in step 27.
+// TODO(step-27): replace this class with an interface that extends JpaRepository<Order, Long>
 @Repository
 public class OrderRepository {
 }
