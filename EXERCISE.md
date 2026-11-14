@@ -1,40 +1,33 @@
-# Step 08: access modifiers
+# Step 09: constructors
 
 ## Goal
 
-Right now anyone can write `order.total = -50`. Jibli must control who can touch what. Close the fields, open the class, and give the outside world a safe way to read an order. (Slide: Java 8/20, access modifiers.)
+An order with no restaurant and no total makes no sense. Make Jibli build an order in one go, with everything it needs, so an empty `Order` can never exist. (Slide: Java 9/20, constructors.)
 
 ## Tasks
 
-- [ ] Make the class `Order` public.
-- [ ] Make `restaurant`, `product` and `total` `private`.
-- [ ] Add `String note` with no modifier (package-private).
-- [ ] Add `protected String audit()` that returns `"audit: <restaurant>/<product>/<total>"`.
-- [ ] Add public getters `getRestaurant()`, `getProduct()` and `getTotal()`.
+- [ ] In `Order`, add a constructor `Order(String restaurant, String product, double total)` that stores the three values.
+- [ ] Notice what happens to `new Order()`. Read the error.
+- [ ] Use `this` to tell the field from the parameter.
 
 ## Hints
 
-1. The four levels, from most open to most closed: `public`, `protected`, nothing (package-private), `private`.
-2. A getter is a public method that returns a private field.
-3. `audit()` can read the private fields because it is inside the class. A fresh order gives `audit: null/null/0.0`.
-4. `return "audit: " + restaurant + "/" + product + "/" + total;`
+1. A constructor has the name of the class and no return type.
+2. Writing any constructor removes the default one that Java adds when there is none.
+3. `this.restaurant = restaurant;` assigns the parameter to the field.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step08*'
+./mvnw -q test -Dtest='Step09*'
 ```
 
-Green means the modifiers are exactly right and a new order starts with `null`, `null` and `0.0`.
+Green means a new order holds exactly what it was built with, and `audit()` shows it.
 
 ## Heads-up
 
-The step 07 test is gone: it wrote to the fields directly, which is exactly what you are about to forbid. Expected: compile errors in the `Step08` tests until the getters exist.
+The step 08 "new order starts empty" test is retired: it used `new Order()`, which will stop compiling once you add your constructor. Expected: compile errors in `Step09ConstructorsTest` until the constructor exists.
 
 ## Stretch
 
-- Try to write `order.total = 5;` in `Main`. Read the compiler message.
-
-## Solution notes
-
-`private` is the default choice for fields, then you open only what other classes really need. `protected` and package-private are visible inside the package, which is why the tests (same package) can still call `audit()` and read `note`. A common mistake is making everything `public` "to make it work", which brings back exactly the problem from step 07.
+- Add a second constructor `Order(String restaurant, String product)` that sets the total to 0.0 by calling the first one with `this(...)`.
