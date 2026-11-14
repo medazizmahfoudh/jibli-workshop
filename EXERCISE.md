@@ -1,34 +1,39 @@
-# Step 30: controller
+# Step 31: REST and CRUD
 
 ## Goal
 
-Dhia taps "Order" in the app, and the phone sends the order as JSON. The controller receives it, turns it into an `Order`, and hands it to the service. (Slide: Spring Boot 10/14, controller.)
+An API that only creates orders is not much use. Dhia must also see his orders, change one, and cancel one. That is CRUD: create, read, update, delete. Each operation uses a different HTTP method and a meaningful status code. (Slide: Spring Boot 11/14, REST and CRUD.)
 
 ## Tasks
 
-- [ ] Put `@RequestMapping("/orders")` on `OrderController`.
-- [ ] Inject `OrderService` through the constructor, as you did in step 29.
-- [ ] Add a method with `@PostMapping` that takes `@RequestBody Order order`, calls `service.place(order)`, and returns the saved order.
+Service (`OrderService`, stubs are already there):
+
+- [ ] `findAll()`, `findById(Long id)` (an `Optional`), `update(Long id, Order newData)` and `delete(Long id)` (returns whether something was deleted). `update` copies the fields of `newData` into the stored order and applies the same rules as `place`.
+
+Controller (`OrderController`):
+
+- [ ] `POST /orders` answers `201 Created`.
+- [ ] `GET /orders` returns the list of orders.
+- [ ] `GET /orders/{id}` returns one order, or `404` when it does not exist.
+- [ ] `PUT /orders/{id}` updates and returns the order, or `404`.
+- [ ] `DELETE /orders/{id}` answers `204 No Content`, or `404`.
 
 ## Hints
 
-1. `@RequestBody` tells Spring to read the JSON of the request and build an `Order` from it. It uses the setters.
-2. Whatever the method returns is written back as JSON.
-3. The controller does not check any rule. That is the service's job.
-4. `@PostMapping` with no path means `POST /orders`, because of the class-level `@RequestMapping`.
+1. `@ResponseStatus(HttpStatus.CREATED)` sets the success status of a method.
+2. `@PathVariable Long id` reads the `{id}` of the URL.
+3. To answer 404, throw `new ResponseStatusException(HttpStatus.NOT_FOUND, "Order " + id + " not found")`.
+4. `Optional.orElseThrow(() -> ...)` turns an empty result into an exception in one line.
+5. `repo.existsById(id)` and `repo.deleteById(id)` are enough for the delete.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step30*'
+./mvnw -q test -Dtest='Step31*'
 ```
 
-Green means a `POST /orders` with a JSON order succeeds and the response contains the same restaurant, product and total. The service is a fake in this test, so only the web layer is checked.
+Green means the five operations work end to end against the real H2 database, including the 404 cases.
 
 ## Stretch
 
-- Start the app and try the endpoint with curl: `curl -X POST localhost:8080/orders -H 'Content-Type: application/json' -d '{"restaurant":"Mamma Chemi","product":"Plat Healthy","total":25.0}'`.
-
-## Solution notes
-
-The controller is thin on purpose: it translates HTTP and JSON into Java objects and back, and delegates everything else. Jackson builds the `Order` from the JSON with the setters, so the validation of step 12 runs there too. A common mistake is forgetting `@RequestBody`, then Spring tries to read `order` as a form field and the object arrives empty.
+- Try it for real with curl: create an order, list it, change its total, delete it.

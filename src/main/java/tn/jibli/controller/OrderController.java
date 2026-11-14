@@ -17,9 +17,12 @@ public class OrderController {
         this.service = service;
     }
 
-    // POST /orders, the JSON body becomes an Order
+    // TODO(step-31): POST must answer 201 Created
     @PostMapping
     public Order create(@RequestBody Order order) {
         return service.place(order);
     }
+
+    // TODO(step-31): GET /orders, GET /orders/{id} (404 if missing), PUT /orders/{id} (404 if missing),
+    // DELETE /orders/{id} (204, or 404 if missing)
 }
