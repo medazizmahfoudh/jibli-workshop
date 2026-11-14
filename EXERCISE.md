@@ -1,35 +1,40 @@
-# Step 16: polymorphism
+# Step 17: packages
 
 ## Goal
 
-The checkout screen has to pay with whatever Dhia chose and add up delivery fees, without a long `if` on the type. Then Jibli adds a wallet, and the checkout must keep working without being touched. (Slide: Java 16/20, polymorphism.)
+Eighteen classes in one folder is already hard to read, and Jibli is just starting. Sort them into packages so everyone finds things where they expect. (Slide: Java 17/20, packages.)
 
 ## Tasks
 
-- [ ] `Checkout.pay(Payment p, double amount)` pays and returns the receipt.
-- [ ] `Checkout.payAll(List<Payment> payments, double amount)` pays with each one and returns the list of receipts, in the same order.
-- [ ] `Checkout.totalFees(List<Delivery> deliveries)` adds the fee of each delivery.
-- [ ] Write `WalletPayment` (a new `Payment`) that returns `"Paid 25.0 TND from wallet"`. Do not change `Checkout` to support it.
+- [ ] Create three packages and move the classes in with your IDE's Move refactoring (right click, Refactor, Move, or F6 in IntelliJ). The IDE updates the `package` lines and the imports for you.
+
+  | Package | Classes |
+  |---|---|
+  | `tn.jibli.basics` | `Greeter`, `Basics`, `Calc`, `DeliveryFee`, `Cart`, `Receipt`, `MemoryLab`, `Recursion` |
+  | `tn.jibli.model` | `Order`, `Delivery`, `ExpressDelivery`, `PickupDelivery` |
+  | `tn.jibli.payment` | `Payment`, `CardPayment`, `CashPayment`, `WalletPayment`, `Checkout` |
+
+- [ ] `Main` stays in `tn.jibli`. Make sure it still compiles.
+- [ ] Run all the tests. They were already moved to the matching packages for you.
 
 ## Hints
 
-1. A variable of type `Payment` can hold a `CardPayment`, a `CashPayment` or any other implementation. Which `pay` runs is decided at runtime.
-2. No `instanceof`, no `if`. Just call the method.
-3. A list of `Delivery` can hold `ExpressDelivery` and `PickupDelivery` objects too.
-4. A standard, an express and a pickup delivery cost 4.0 + 7.0 + 0.0.
+1. The folder must match the package: `tn.jibli.model` lives in `src/main/java/tn/jibli/model`.
+2. A class in another package needs an `import`, and its public members must really be `public`.
+3. Without an IDE: create the folders, `git mv` each file, change the `package` line, and add the imports by hand.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step16*'
+./mvnw -q test
 ```
 
-Green means the same `Checkout` code handles all payments and deliveries, including the wallet you just added.
+Green means everything compiles in its new place and the whole suite still passes. The new `Step17` test checks the locations with `Class.forName`.
+
+## Heads-up
+
+The tests from steps 01 to 16 were moved into the mirrored packages and now import the classes from their future location. Expected: compile errors in many test files until the main classes are moved. `src/main` compiles the whole time.
 
 ## Stretch
 
-- Add `D17Payment` (the mobile payment) in a new file. Does anything else need to change?
-
-## Solution notes
-
-Polymorphism lets one line of code do different things depending on the real object behind the variable. That is what makes `Checkout` closed to changes but open to new payments: `WalletPayment` was added without touching it. A common mistake is writing `if (p instanceof CardPayment)` inside the checkout, which brings back the long chain of conditions you wanted to avoid.
+- What happens if you make `Order.note` public after the move? Why was package-private a bad idea once the classes are in different packages?
