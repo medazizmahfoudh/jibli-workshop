@@ -1,37 +1,30 @@
-# Step 09: constructors
+# Step 10: JVM memory
 
 ## Goal
 
-An order with no restaurant and no total makes no sense. Make Jibli build an order in one go, with everything it needs, so an empty `Order` can never exist. (Slide: Java 9/20, constructors.)
+Jibli sometimes has to copy an order, and sometimes has to ask "are these two the same order?". In Java that question has two answers, depending on whether you compare references or values. (Slide: Java 10/20, JVM memory.)
 
 ## Tasks
 
-- [ ] In `Order`, add a constructor `Order(String restaurant, String product, double total)` that stores the three values.
-- [ ] Notice what happens to `new Order()`. Read the error.
-- [ ] Use `this` to tell the field from the parameter.
+- [ ] `MemoryLab.copyOf(Order o)` returns a new object with the same restaurant, product and total.
+- [ ] `MemoryLab.sameObject(Order a, Order b)` is true only when both variables point to the very same object.
+- [ ] `MemoryLab.sameValues(Order a, Order b)` is true when restaurant, product and total are equal. Compare the strings with `equals`.
 
 ## Hints
 
-1. A constructor has the name of the class and no return type.
-2. Writing any constructor removes the default one that Java adds when there is none.
-3. `this.restaurant = restaurant;` assigns the parameter to the field.
+1. A variable of a class type holds a reference (an address on the heap), not the object itself.
+2. `==` on references asks "same object?". `equals` on strings asks "same characters?".
+3. For the total, `==` is fine because `double` is a primitive.
+4. `new String("Mamma Chemi")` creates a different object than the literal `"Mamma Chemi"`, which is why the test uses it.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step09*'
+./mvnw -q test -Dtest='Step10*'
 ```
 
-Green means a new order holds exactly what it was built with, and `audit()` shows it.
-
-## Heads-up
-
-The step 08 "new order starts empty" test is retired: it used `new Order()`, which will stop compiling once you add your constructor. Expected: compile errors in `Step09ConstructorsTest` until the constructor exists.
+Green means a copy is a different object with the same values, and your string comparison does not depend on object identity.
 
 ## Stretch
 
-- Add a second constructor `Order(String restaurant, String product)` that sets the total to 0.0 by calling the first one with `this(...)`.
-
-## Solution notes
-
-The constructor runs once, at `new`, and is the right place to make sure the object starts in a valid state. As soon as you write your own constructor Java stops generating the empty one, which is why `new Order()` no longer compiles. A common mistake is writing `restaurant = restaurant;` without `this`, which assigns the parameter to itself and leaves the field empty.
+- Draw the stack and the heap for `Order a = new Order(...); Order b = a;`. How many objects are there?
