@@ -1,4 +1,4 @@
-package tn.jibli;
+package tn.jibli.model;
 
 public class Order {
 

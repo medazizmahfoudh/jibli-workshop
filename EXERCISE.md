@@ -38,3 +38,7 @@ The tests from steps 01 to 16 were moved into the mirrored packages and now impo
 ## Stretch
 
 - What happens if you make `Order.note` public after the move? Why was package-private a bad idea once the classes are in different packages?
+
+## Solution notes
+
+A package is a folder plus a `package` line, and it gives every class a full name such as `tn.jibli.model.Order`. Classes in other packages need an `import`, and only `public` members are visible to them, which is why package-private tricks stop working after a move. A common mistake is moving the file in the file explorer without changing the `package` line, so the compiler complains about a mismatch.

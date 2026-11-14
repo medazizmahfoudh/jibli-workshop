@@ -1,5 +1,7 @@
 package tn.jibli;
 
+import tn.jibli.basics.Greeter;
+
 public class Main {
 
     // the JVM starts here: it looks for exactly this signature

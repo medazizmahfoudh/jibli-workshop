@@ -1,4 +1,6 @@
-package tn.jibli;
+package tn.jibli.basics;
+
+import tn.jibli.model.Order;
 
 public class MemoryLab {
 

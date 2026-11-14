@@ -1,4 +1,4 @@
-package tn.jibli;
+package tn.jibli.payment;
 
 // a contract: anything that can pay must offer this method
 public interface Payment {

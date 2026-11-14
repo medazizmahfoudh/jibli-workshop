@@ -1,4 +1,4 @@
-package tn.jibli;
+package tn.jibli.model;
 
 // extends: an ExpressDelivery is a Delivery with its own fee
 public class ExpressDelivery extends Delivery {

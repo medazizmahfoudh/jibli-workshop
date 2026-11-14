@@ -1,7 +1,8 @@
-package tn.jibli;
+package tn.jibli.payment;
 
 import java.util.ArrayList;
 import java.util.List;
+import tn.jibli.model.Delivery;
 
 public class Checkout {
 

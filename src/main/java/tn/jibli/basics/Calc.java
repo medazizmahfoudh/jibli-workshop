@@ -1,4 +1,4 @@
-package tn.jibli;
+package tn.jibli.basics;
 
 public class Calc {
 
