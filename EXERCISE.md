@@ -33,3 +33,7 @@ Green means the annotation is declared the right way and the reader finds the no
 ## Stretch
 
 - Make the annotation usable on methods too. Which `@Target` values do you need?
+
+## Solution notes
+
+An annotation is only a label. Something has to read it: the compiler for `@Override`, your own reflection code for `@Experimental`, and from the next step on, Spring for `@RestController`, `@Service` and friends. `RUNTIME` retention is what keeps the label alive after compilation. A common mistake is forgetting `@Retention(RUNTIME)`, then `getAnnotation` returns `null` and nothing seems to work.
