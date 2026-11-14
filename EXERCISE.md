@@ -1,34 +1,31 @@
-# Step 15: interfaces
+# Step 16: polymorphism
 
 ## Goal
 
-Dhia can pay by card or in cash. The rest of Jibli should not care which one, it only needs to know that something can pay. Describe that with an interface. (Slide: Java 15/20, interfaces.)
+The checkout screen has to pay with whatever Dhia chose and add up delivery fees, without a long `if` on the type. Then Jibli adds a wallet, and the checkout must keep working without being touched. (Slide: Java 16/20, polymorphism.)
 
 ## Tasks
 
-- [ ] Create `interface Payment` with one method `String pay(double amount)`.
-- [ ] Make `CardPayment` implement it and return `"Paid 25.0 TND by card"` for an amount of 25.0.
-- [ ] Make `CashPayment` implement it and return `"Paid 25.0 TND in cash"`.
+- [ ] `Checkout.pay(Payment p, double amount)` pays and returns the receipt.
+- [ ] `Checkout.payAll(List<Payment> payments, double amount)` pays with each one and returns the list of receipts, in the same order.
+- [ ] `Checkout.totalFees(List<Delivery> deliveries)` adds the fee of each delivery.
+- [ ] Write `WalletPayment` (a new `Payment`) that returns `"Paid 25.0 TND from wallet"`. Do not change `Checkout` to support it.
 
 ## Hints
 
-1. An interface declares what a class can do, not how. Its methods have no body.
-2. `implements` is to interfaces what `extends` is to classes.
-3. A class that implements an interface must provide every method of it.
-4. Build the text with the amount: `"Paid " + amount + " TND by card"`.
+1. A variable of type `Payment` can hold a `CardPayment`, a `CashPayment` or any other implementation. Which `pay` runs is decided at runtime.
+2. No `instanceof`, no `if`. Just call the method.
+3. A list of `Delivery` can hold `ExpressDelivery` and `PickupDelivery` objects too.
+4. A standard, an express and a pickup delivery cost 4.0 + 7.0 + 0.0.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step15*'
+./mvnw -q test -Dtest='Step16*'
 ```
 
-Green means `Payment` exists as an interface, both classes implement it, and the messages are right.
+Green means the same `Checkout` code handles all payments and deliveries, including the wallet you just added.
 
 ## Stretch
 
-- Could a class implement two interfaces? Could it extend two classes?
-
-## Solution notes
-
-An interface says what an object can do and leaves the how to each class. Code that only knows the interface works with every present and future implementation. Spring Data and many other tools rely on this idea. A common mistake is forgetting `public` on the method in the implementing class: interface methods are public, so the implementation must be too.
+- Add `D17Payment` (the mobile payment) in a new file. Does anything else need to change?
