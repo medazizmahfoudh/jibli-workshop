@@ -1,33 +1,30 @@
-# Step 27: repository
+# Step 28: service
 
 ## Goal
 
-Saving and loading orders is always the same: save, find all, find one, delete. Spring Data writes that code for you if you only say which entity and which type of id you use. (Slide: Spring Boot 7/14, repository.)
+The repository saves anything, even an order for a restaurant that is closed tonight. The rules about orders belong in one place, the service. Chapati Medina is closed, so Dhia cannot order from it. (Slide: Spring Boot 8/14, service.)
 
 ## Tasks
 
-- [ ] Replace the class `OrderRepository` with an interface `OrderRepository extends JpaRepository<Order, Long>`. It stays in `tn.jibli.repository`.
-- [ ] Do not write any method, nothing else is needed.
-- [ ] Look at `save`, `findAll`, `findById` and `deleteById` in your IDE's autocomplete. You never wrote them.
+- [ ] In `OrderService.place(Order order)`, throw `IllegalArgumentException` when the total is 0 or less.
+- [ ] Throw `RestaurantClosedException` (from step 19) when the restaurant is `"Chapati Medina"`. Keep the closed restaurants in a small fixed set.
+- [ ] Otherwise save the order with the repository and return the saved order.
 
 ## Hints
 
-1. `JpaRepository<T, ID>` takes the entity type and the type of its `@Id` field.
-2. Remove `@Repository` and the class body. An interface has no body for these methods, Spring generates the implementation at startup.
-3. `findById` returns an `Optional<Order>`, because the id may not exist.
+1. The `repo` field is already there. `@Autowired` asks Spring to fill it in.
+2. `Set.of("Chapati Medina")` is a handy fixed set, and `set.contains(name)` checks it.
+3. `repo.save(order)` returns the saved entity, with its id.
+4. Check the rules first, so nothing is saved for a refused order.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step27*'
+./mvnw -q test -Dtest='Step28*'
 ```
 
-Green means you can save, list, find and delete orders through your interface.
+Green means good orders are saved, bad ones are refused, and nothing reaches the database in that case.
 
 ## Stretch
 
-- Try adding `List<Order> findByRestaurant(String restaurant);` and write a quick test. You will need it in step 34.
-
-## Solution notes
-
-`JpaRepository` already declares the usual operations, and Spring Data creates a class that implements them for your interface at startup. This is the interface idea from step 15 used by a framework: you depend on the contract, the implementation is generated. A common mistake is leaving `@Repository` on an interface and expecting it to be enough, the thing that matters is `extends JpaRepository`.
+- Move the check into a private method `checkRules(Order order)`. You will reuse it in step 31.
