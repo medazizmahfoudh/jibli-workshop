@@ -1,0 +1,80 @@
+{
+  "info": {
+    "name": "Jibli",
+    "description": "Requests for the Jibli orders API. Start the app first: ./mvnw spring-boot:run",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" }
+  ],
+  "item": [
+    {
+      "name": "Create order",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"restaurant\": \"Mamma Chemi\",\n  \"product\": \"Plat Healthy\",\n  \"total\": 25.0\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/orders",
+          "host": ["{{baseUrl}}"],
+          "path": ["orders"]
+        }
+      }
+    },
+    {
+      "name": "List orders",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/orders",
+          "host": ["{{baseUrl}}"],
+          "path": ["orders"]
+        }
+      }
+    },
+    {
+      "name": "Get one order",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/orders/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["orders", "1"]
+        }
+      }
+    },
+    {
+      "name": "Update order",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"restaurant\": \"Dar Lablabi\",\n  \"product\": \"Lablabi\",\n  \"total\": 6.5\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/orders/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["orders", "1"]
+        }
+      }
+    },
+    {
+      "name": "Delete order",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/orders/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["orders", "1"]
+        }
+      }
+    }
+  ]
+}

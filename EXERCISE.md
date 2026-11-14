@@ -30,3 +30,7 @@ Green means the exported file is valid JSON and contains the five kinds of reque
 ## Stretch
 
 - Add a test script in Postman that checks the status code of the `POST` request is 201.
+
+## Solution notes
+
+A collection is just a JSON file, so it can be committed, reviewed and shared like code. The `{{baseUrl}}` variable lets the same requests run against your laptop today and a server later. A common mistake is hard-coding `localhost:8080` in every request, then changing the port means editing five places.
