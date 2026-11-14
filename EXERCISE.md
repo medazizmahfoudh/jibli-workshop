@@ -1,37 +1,36 @@
-# Step 07: classes and objects
+# Step 08: access modifiers
 
 ## Goal
 
-So far an order was just numbers and text floating around. Give Jibli a real `Order` that groups the restaurant, the product and the total, so Dhia's order from Mamma Chemi travels as one thing. (Slide: Java 7/20, classes and objects.)
+Right now anyone can write `order.total = -50`. Jibli must control who can touch what. Close the fields, open the class, and give the outside world a safe way to read an order. (Slide: Java 8/20, access modifiers.)
 
 ## Tasks
 
-- [ ] Open `src/main/java/tn/jibli/Order.java`. It is an empty class.
-- [ ] Add three fields: `String restaurant`, `String product` and `double total`. Do not write a constructor and do not add any modifier yet.
-- [ ] Look at the test to see how objects are created and used.
+- [ ] Make the class `Order` public.
+- [ ] Make `restaurant`, `product` and `total` `private`.
+- [ ] Add `String note` with no modifier (package-private).
+- [ ] Add `protected String audit()` that returns `"audit: <restaurant>/<product>/<total>"`.
+- [ ] Add public getters `getRestaurant()`, `getProduct()` and `getTotal()`.
 
 ## Hints
 
-1. A field is a variable declared inside the class but outside any method.
-2. Every `new Order()` gives a separate object with its own copy of each field.
-3. `String restaurant;` is a complete field declaration.
+1. The four levels, from most open to most closed: `public`, `protected`, nothing (package-private), `private`.
+2. A getter is a public method that returns a private field.
+3. `audit()` can read the private fields because it is inside the class. A fresh order gives `audit: null/null/0.0`.
+4. `return "audit: " + restaurant + "/" + product + "/" + total;`
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step07*'
+./mvnw -q test -Dtest='Step08*'
 ```
 
-Green means two orders hold different values at the same time.
+Green means the modifiers are exactly right and a new order starts with `null`, `null` and `0.0`.
 
 ## Heads-up
 
-Expected: compile errors in `Step07ClassesTest` until you add the fields. That is the point of this step, the test cannot compile without them.
+The step 07 test is gone: it wrote to the fields directly, which is exactly what you are about to forbid. Expected: compile errors in the `Step08` tests until the getters exist.
 
 ## Stretch
 
-- Create a third order for Dar Lablabi in `Main` and print its fields.
-
-## Solution notes
-
-A class is the blueprint and `new` builds one object from it in memory, with its own copy of every field. Without a constructor, Java gives the class a default one that takes no arguments and leaves the fields at their defaults (`null`, `0.0`). A common mistake is thinking the fields are shared between orders. They are not, only `static` fields are shared (step 13).
+- Try to write `order.total = 5;` in `Main`. Read the compiler message.
