@@ -31,6 +31,7 @@ public class OrderController {
         return service.place(order);
     }
 
+    // TODO(step-34): accept an optional ?restaurant=... parameter and filter with the service
     @GetMapping
     public List<Order> list() {
         return service.findAll();

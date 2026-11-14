@@ -83,3 +83,35 @@ The same table with the deck positions is in [docs/SLIDE_MAP.md](docs/SLIDE_MAP.
 ## Checking the branches
 
 `tools/verify-branches.sh` goes through every exercise and solution branch and checks that the exercise compiles and its step tests are red, and that the solution is green. It switches branches, so run it with a clean working tree.
+
+## What you built
+
+A small backend for Jibli with five REST endpoints on orders, stored in H2, with the business rules in a service. You started from `javac` and ended with an app you can call from Postman and curl.
+
+A request travels like this:
+
+```
+curl / Postman / the Jibli app
+   |  GET /orders?restaurant=Mamma%20Chemi
+   v
+OrderController    reads the request, writes JSON
+   |  service.findByRestaurant("Mamma Chemi")
+   v
+OrderService       business rules (a total above 0, Chapati Medina is closed)
+   |  repo.findByRestaurant("Mamma Chemi")
+   v
+OrderRepository    Spring Data builds the query from the method name
+   |
+   v
+H2 database        table "orders"
+```
+
+Run it with `./mvnw spring-boot:run`, then try `bash scripts/smoke-test.sh`, the Postman collection in `postman/`, or the H2 console at <http://localhost:8080/h2-console> (JDBC URL `jdbc:h2:mem:jibli`).
+
+## Where to go next
+
+- Relationships: a `Restaurant` entity and `@OneToMany` / `@ManyToOne` between restaurants and orders, instead of the fixed list of closed restaurants.
+- PostgreSQL instead of H2, so the data survives a restart.
+- Security with JWT, so only Dhia can see Dhia's orders.
+- Clean error answers: a closed restaurant should give a clear 4xx, not a 500.
+- More tests, and Docker to package the app.
