@@ -30,3 +30,7 @@ Green means an order can be saved and read back, the table is called `orders`, J
 ## Stretch
 
 - Look at the SQL printed in the console when the test runs. Which statements did Hibernate write for you?
+
+## Solution notes
+
+An entity is a normal class with a few labels that tell Hibernate how it maps to a table: the class is the table, each field is a column, each object is a row. `@GeneratedValue` lets the database pick the id, so a new order has `id == null` until it is saved. A common mistake is forgetting the empty constructor, and Hibernate fails with an error about instantiating the entity.
