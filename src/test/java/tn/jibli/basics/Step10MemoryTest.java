@@ -1,9 +1,10 @@
-package tn.jibli;
+package tn.jibli.basics;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import tn.jibli.model.Order;
 
 class Step10MemoryTest {
 

@@ -1,10 +1,13 @@
-package tn.jibli;
+package tn.jibli.payment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import tn.jibli.model.Delivery;
+import tn.jibli.model.ExpressDelivery;
+import tn.jibli.model.PickupDelivery;
 
 class Step16PolymorphismTest {
 

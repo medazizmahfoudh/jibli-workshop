@@ -1,4 +1,4 @@
-package tn.jibli;
+package tn.jibli.payment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

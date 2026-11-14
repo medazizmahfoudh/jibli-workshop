@@ -1,4 +1,4 @@
-package tn.jibli;
+package tn.jibli.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
