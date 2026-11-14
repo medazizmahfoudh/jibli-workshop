@@ -29,3 +29,7 @@ Green means every mode works, including the boundary cases 39.99 and 40.0.
 ## Stretch
 
 - Add a mode `"night"` that costs 6 TND. Which part of the code do you have to touch?
+
+## Solution notes
+
+`switch` picks one branch out of several fixed values, `if/else` decides on a condition. Each `case` here ends with a `return`, so there is no fall-through to the next case. A common mistake is writing `> 40` and charging 4 TND for an order of exactly 40.0.
