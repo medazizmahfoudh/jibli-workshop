@@ -38,3 +38,7 @@ javap -c -cp target/manual tn.jibli.Greeter
 ## Stretch
 
 - Change the greeting for one name only, for example a different message when `name` is `"Dhia"`. Try it once with `if`, even though we have not seen `if` yet.
+
+## Solution notes
+
+`javac` compiles source into bytecode, and the JVM runs that bytecode, which is why the same `.class` file works on Windows, Linux and macOS. `main` must be `public static void main(String[] args)`, otherwise the JVM cannot find the entry point. A common mistake is forgetting that `+` between a String and a variable builds text, not a number.

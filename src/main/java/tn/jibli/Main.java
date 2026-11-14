@@ -2,7 +2,8 @@ package tn.jibli;
 
 public class Main {
 
+    // the JVM starts here: it looks for exactly this signature
     public static void main(String[] args) {
-        // TODO(step-01): print the welcome message for Dhia
+        System.out.println(Greeter.welcome("Dhia"));
     }
 }
