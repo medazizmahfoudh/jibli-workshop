@@ -38,3 +38,12 @@ javap -c -cp target/manual tn.jibli.Greeter
 ## Stretch
 
 - Change the greeting for one name only, for example a different message when `name` is `"Dhia"`. Try it once with `if`, even though we have not seen `if` yet.
+
+
+
+FIX :
+<dependency>
+<groupId>org.junit.platform</groupId>
+<artifactId>junit-platform-launcher</artifactId>
+<scope>test</scope>
+</dependency>
