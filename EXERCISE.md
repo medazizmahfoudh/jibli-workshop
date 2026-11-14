@@ -1,36 +1,31 @@
-# Step 03: operators and casts
+# Step 04: conditionals
 
 ## Goal
 
-Jibli needs to add the delivery fee, apply discounts, show whole dinars and spot loyalty orders. These are small calculations, but integer division and casts hide traps. (Slide: Java 3/20, operators and casts.)
+Jibli charges 4 TND for standard delivery, free from 40 TND. Express costs 7 TND and pickup is free. Write the rule once, so every order uses it. (Slide: Java 4/20, conditionals.)
 
 ## Tasks
 
-- [ ] `Calc.total(subtotal, fee)` returns subtotal plus fee.
-- [ ] `Calc.applyDiscount(subtotal, percent)` returns the subtotal reduced by that percentage (a 10% discount on 40.0 gives 36.0).
-- [ ] `Calc.dinars(amount)` returns the whole dinars as an `int`, cutting off the decimals.
-- [ ] `Calc.averageItems(totalItems, orders)` returns the average as a `double` (7 items in 2 orders is 3.5).
-- [ ] `Calc.isLoyaltyOrder(orderNumber)` is true when the order number is divisible by 5.
+- [ ] In `DeliveryFee.fee(double subtotal, String mode)` return 0.0 for `"pickup"` and 7.0 for `"express"`.
+- [ ] For `"standard"` return 4.0, but 0.0 when the subtotal is 40.0 or more.
+- [ ] Throw an `IllegalArgumentException` for any other mode.
+- [ ] Use a `switch` for the mode and an `if/else` for the 40 TND threshold.
 
 ## Hints
 
-1. `7 / 2` is `3` in Java because both sides are `int`.
-2. A cast such as `(double) x` changes the type of one side before the division happens.
-3. `%` gives the remainder of a division. An order number divisible by 5 has remainder 0.
-4. For the discount, check where `percent / 100` ends up if both are `int`.
+1. A `switch` on a `String` works like one on a number: `case "pickup":`.
+2. Do not forget `break` or use `return` inside each case.
+3. 40.0 itself is already free, so the comparison is `>=`.
+4. `default:` is the place for the exception.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step03*'
+./mvnw -q test -Dtest='Step04*'
 ```
 
-Green means all five methods give the right values, including the integer division cases.
+Green means every mode works, including the boundary cases 39.99 and 40.0.
 
 ## Stretch
 
-- What does `dinars(-3.7)` return? Is that what a shop would want?
-
-## Solution notes
-
-Division of two `int` values stays an `int`, so the decimals are lost before anything else happens. Cast one operand to `double` first, and put the cast on the operand, not on the result. A common mistake is writing `(double) (7 / 2)`, which still gives 3.0.
+- Add a mode `"night"` that costs 6 TND. Which part of the code do you have to touch?
