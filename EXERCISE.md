@@ -37,3 +37,7 @@ This test needs `bash` and `curl`. On Windows run it from Git Bash or WSL. If th
 ## Stretch
 
 - Make the script also check that `GET` on the deleted id now answers 404.
+
+## Solution notes
+
+`set -e` makes bash stop at the first failing command, `-u` catches typos in variable names, and `pipefail` makes a pipe fail when any part fails. The `-w` option of curl prints the status code, so the script can compare it with what it expects. A common mistake is only looking at the body of a response: an error page is also "a response", the status code is what tells you if the call worked.
