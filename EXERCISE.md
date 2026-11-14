@@ -1,38 +1,30 @@
-# Step 21: framework and inversion of control
+# Step 22: Maven
 
 ## Goal
 
-Until now your code called everything: you wrote `new`, you wrote `main`. With a framework it is the other way round. You describe your classes, and Spring creates them and connects them. Start Jibli as a Spring Boot application. (Slide: Spring Boot 1/14, framework and IoC.)
+Jibli needs a web server, a database layer and a database. In Maven you do not download jars by hand, you list what you need in `pom.xml` and Maven fetches it, with everything it depends on. (Slide: Spring Boot 2/14, Maven.)
 
 ## Tasks
 
-- [ ] In `pom.xml`, add the dependency `org.springframework.boot:spring-boot-starter` (no version needed, the parent provides it).
-- [ ] Create `tn.jibli.JibliApplication` with `@SpringBootApplication` and a `main` that calls `SpringApplication.run(...)`.
-- [ ] Create `tn.jibli.WelcomeMessage`, a class annotated with `@Component`, with a method `String text()` that returns `"Welcome to Jibli"`.
+- [ ] Add these dependencies to `pom.xml`: `spring-boot-starter-web`, `spring-boot-starter-data-jpa`, and `com.h2database:h2` with scope `runtime`.
+- [ ] Add a `build` section with the `spring-boot-maven-plugin`, configured with `<mainClass>tn.jibli.JibliApplication</mainClass>`.
+- [ ] Explore (not tested): run `./mvnw dependency:tree`, then `./mvnw package`, then `java -jar target/jibli-0.0.1-SNAPSHOT.jar`.
 
 ## Hints
 
-1. After editing `pom.xml`, reload the Maven project in your IDE, or run `./mvnw -q compile`.
-2. `@SpringBootApplication` goes on a class, and Spring scans that class's package and everything below it.
-3. `@Component` tells Spring "create one object of this class and keep it".
-4. `SpringApplication.run(JibliApplication.class, args);`
+1. A "starter" is a dependency that pulls in a whole set of libraries that work together.
+2. The `runtime` scope means the jar is needed to run the app, but not to compile it.
+3. The project has two classes with a `main` method: `Main` and `JibliApplication`. The plugin needs to be told which one starts the app.
+4. Dependencies go in `<dependencies>`, the plugin in `<build><plugins>`.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step21*'
+./mvnw -q test -Dtest='Step22*'
 ```
 
-Green means Spring started and handed the test a `WelcomeMessage` that nobody created with `new`. Look at the test: it never says `new WelcomeMessage()`.
-
-## Heads-up
-
-Expected: compile errors in `Step21FrameworkTest` until the dependency is added and both classes exist. The test needs Spring and your two classes.
+Green means the pom has the right dependencies and plugin, and the Spring context still starts with them.
 
 ## Stretch
 
-- Run `JibliApplication` from your IDE. Spring starts and stops straight away, can you see why? (There is nothing to keep it alive yet.)
-
-## Solution notes
-
-Inversion of control means the framework is in charge: you mark a class with `@Component` and Spring decides when to create it and who gets it. By default there is one shared instance per class (a singleton bean). A common mistake is putting `JibliApplication` in a sub-package, or the component outside it, so Spring never finds the class to scan.
+- Find `tomcat-embed-core` in the output of `dependency:tree`. Which of your dependencies brought it in?
