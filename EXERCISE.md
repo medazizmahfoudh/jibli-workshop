@@ -1,35 +1,29 @@
-# Step 04: conditionals
+# Step 05: loops and arrays
 
 ## Goal
 
-Jibli charges 4 TND for standard delivery, free from 40 TND. Express costs 7 TND and pickup is free. Write the rule once, so every order uses it. (Slide: Java 4/20, conditionals.)
+Dhia's cart is a list of prices. Jibli needs the total, the most expensive item, and a way to find a product by name. (Slide: Java 5/20, loops and arrays.)
 
 ## Tasks
 
-- [ ] In `DeliveryFee.fee(double subtotal, String mode)` return 0.0 for `"pickup"` and 7.0 for `"express"`.
-- [ ] For `"standard"` return 4.0, but 0.0 when the subtotal is 40.0 or more.
-- [ ] Throw an `IllegalArgumentException` for any other mode.
-- [ ] Use a `switch` for the mode and an `if/else` for the 40 TND threshold.
+- [ ] `Cart.sum(double[] prices)` adds all prices with a `for` loop.
+- [ ] `Cart.mostExpensive(double[] prices)` returns the biggest price using an enhanced `for` loop. An empty array gives 0.0.
+- [ ] `Cart.indexOf(String[] names, String wanted)` returns the position of `wanted` using a `while` loop, or -1 when it is not there.
 
 ## Hints
 
-1. A `switch` on a `String` works like one on a number: `case "pickup":`.
-2. Do not forget `break` or use `return` inside each case.
-3. 40.0 itself is already free, so the comparison is `>=`.
-4. `default:` is the place for the exception.
+1. `prices.length` is the number of elements, and the first index is 0.
+2. For `mostExpensive`, start with 0.0 and replace it whenever you see something bigger.
+3. For `indexOf`, keep a counter `i`, stop when `i == names.length` or when you found the name. Compare strings with `equals`, not `==`.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step04*'
+./mvnw -q test -Dtest='Step05*'
 ```
 
-Green means every mode works, including the boundary cases 39.99 and 40.0.
+Green means all three methods behave, including the empty array and the missing name.
 
 ## Stretch
 
-- Add a mode `"night"` that costs 6 TND. Which part of the code do you have to touch?
-
-## Solution notes
-
-`switch` picks one branch out of several fixed values, `if/else` decides on a condition. Each `case` here ends with a `return`, so there is no fall-through to the next case. A common mistake is writing `> 40` and charging 4 TND for an order of exactly 40.0.
+- Write `Cart.average(double[] prices)`. What should it return for an empty array?
