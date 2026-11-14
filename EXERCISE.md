@@ -33,3 +33,7 @@ Green means every method works and the list you hand out cannot be modified.
 ## Stretch
 
 - Make `findRestaurant` return an `Optional<Restaurant>` instead of `null`. What changes for the callers?
+
+## Solution notes
+
+A `List` keeps the order and grows as needed, a `Map` finds a value from its key in constant time. Declaring the field as `List` and building an `ArrayList` lets you change the implementation later without touching the callers. A common mistake is returning the internal list directly, so any caller can add or remove orders without your class knowing.
