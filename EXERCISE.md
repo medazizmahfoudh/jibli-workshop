@@ -31,3 +31,7 @@ The step 08 "new order starts empty" test is retired: it used `new Order()`, whi
 ## Stretch
 
 - Add a second constructor `Order(String restaurant, String product)` that sets the total to 0.0 by calling the first one with `this(...)`.
+
+## Solution notes
+
+The constructor runs once, at `new`, and is the right place to make sure the object starts in a valid state. As soon as you write your own constructor Java stops generating the empty one, which is why `new Order()` no longer compiles. A common mistake is writing `restaurant = restaurant;` without `this`, which assigns the parameter to itself and leaves the field empty.
