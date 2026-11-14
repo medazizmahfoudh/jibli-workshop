@@ -1,10 +1,11 @@
 package tn.jibli.repository;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import tn.jibli.model.Order;
 
-// only an interface: Spring Data builds the implementation when the app starts
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    // TODO(step-34): a derived query that finds the orders of one restaurant
+    // a derived query: Spring Data reads the method name and writes the SQL
+    List<Order> findByRestaurant(String restaurant);
 }

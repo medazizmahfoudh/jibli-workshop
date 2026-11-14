@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -31,10 +32,13 @@ public class OrderController {
         return service.place(order);
     }
 
-    // TODO(step-34): accept an optional ?restaurant=... parameter and filter with the service
+    // GET /orders, or GET /orders?restaurant=Mamma%20Chemi
     @GetMapping
-    public List<Order> list() {
-        return service.findAll();
+    public List<Order> list(@RequestParam(required = false) String restaurant) {
+        if (restaurant == null) {
+            return service.findAll();
+        }
+        return service.findByRestaurant(restaurant);
     }
 
     @GetMapping("/{id}")

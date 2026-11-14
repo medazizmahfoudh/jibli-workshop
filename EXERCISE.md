@@ -29,3 +29,7 @@ Green means a search by restaurant returns only its orders, an unknown restauran
 ## Stretch
 
 - Try a second filter on the product, or search ignoring upper and lower case (look for `IgnoreCase` in the Spring Data names).
+
+## Solution notes
+
+Each layer got one small change: a method name in the repository, a method in the service, a parameter in the controller. That is what the layers are for. `@RequestParam(required = false)` gives `null` when the client does not send the parameter, so the old behaviour stays. A common mistake is a typo in the derived query name, such as `findByRestaurants`, and Spring Data fails at startup because no such field exists.

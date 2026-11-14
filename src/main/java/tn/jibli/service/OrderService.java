@@ -24,9 +24,12 @@ public class OrderService {
         return repo.save(order);
     }
 
-    // TODO(step-34): a method that returns only the orders of one restaurant
     public List<Order> findAll() {
         return repo.findAll();
+    }
+
+    public List<Order> findByRestaurant(String restaurant) {
+        return repo.findByRestaurant(restaurant);
     }
 
     public Optional<Order> findById(Long id) {
