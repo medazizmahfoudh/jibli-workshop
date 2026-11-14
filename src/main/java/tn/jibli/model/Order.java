@@ -2,6 +2,9 @@ package tn.jibli.model;
 
 public class Order {
 
+    // TODO(step-26): make Order a JPA entity stored in the table "orders", with a generated Long id,
+    // a protected no-argument constructor for JPA (it must not count as a new order), and a real getId()
+
     // static: one copy for the whole class. final: it can never change.
     public static final double DELIVERY_FEE = 4.0;
 
@@ -28,6 +31,11 @@ public class Order {
     // used by tests to start from zero
     static void resetCounter() {
         createdCount = 0;
+    }
+
+    public Long getId() {
+        // TODO(step-26): return the generated id
+        throw new UnsupportedOperationException("TODO(step-26)");
     }
 
     public double totalWithFee() {

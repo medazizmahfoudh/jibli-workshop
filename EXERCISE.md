@@ -1,38 +1,32 @@
-# Step 25: layers
+# Step 26: entity
 
 ## Goal
 
-If everything lives in one controller, Jibli turns into a mess after ten features. Split the backend into three layers, each with one job, before real code arrives. (Slide: Spring Boot 5/14, layers.)
-
-```
-Client -> Controller -> Service -> Repository -> Database
-```
+Orders vanish when the app stops. Store them in a database. With JPA you describe the table with a Java class, and Hibernate writes the SQL. We use H2, a database that lives in memory, so there is nothing to install. (Slide: Spring Boot 6/14, entity.)
 
 ## Tasks
 
-- [ ] Create the package `tn.jibli.controller` and move `HelloController` into it.
-- [ ] In the same package create `OrderController`, annotated with `@RestController`.
-- [ ] Create `tn.jibli.service.OrderService`, annotated with `@Service`.
-- [ ] Create `tn.jibli.repository.OrderRepository`, a plain class annotated with `@Repository` for now. We replace it in step 27.
+- [ ] Turn `tn.jibli.model.Order` into a JPA entity: `@Entity`, and `@Table(name = "orders")`.
+- [ ] Add a `Long id` field with `@Id` and `@GeneratedValue`, and make `getId()` return it (a stub is already there).
+- [ ] Add a `protected Order()` constructor for JPA. It must not increase `createdCount`.
+- [ ] Create `src/main/resources/application.properties` with an in-memory H2 database (`jdbc:h2:mem:jibli`), `spring.jpa.show-sql=true` and the H2 console enabled.
 
 ## Hints
 
-1. The controller deals with HTTP, the service with business rules, the repository with data. A layer only talks to the one below it.
-2. `@Service` and `@Repository` do the same as `@Component` for Spring, but tell readers (and tools) what the class is for.
-3. Use your IDE's Move refactoring for `HelloController`, then check that `/hello` still works.
+1. The annotations come from `jakarta.persistence`.
+2. `order` is a reserved word in SQL, that is why the table is called `orders`.
+3. JPA creates objects by itself when it reads a row. It needs an empty constructor, and it does not go through your counter.
+4. The property names are `spring.datasource.url`, `spring.jpa.show-sql` and `spring.h2.console.enabled`.
+5. Run the app and open <http://localhost:8080/h2-console> with the same JDBC URL to see the `orders` table.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step25*'
+./mvnw -q test -Dtest='Step26*'
 ```
 
-Green means the four classes are in the right packages with the right annotations, Spring created them, and `/hello` still answers.
+Green means an order can be saved and read back, the table is called `orders`, JPA does not touch the counter, and the three properties are set.
 
 ## Stretch
 
-- Why would it be a bad idea for the controller to talk to the repository directly?
-
-## Solution notes
-
-Each layer has one reason to change: the controller when the API changes, the service when a business rule changes, the repository when the storage changes. Spring finds all of them through scanning, so no wiring code is needed yet. A common mistake is moving the class in the file system but not under the scanned package, for example outside `tn.jibli`, so the bean never appears.
+- Look at the SQL printed in the console when the test runs. Which statements did Hibernate write for you?
