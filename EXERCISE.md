@@ -1,34 +1,34 @@
-# Step 24: the first endpoint
+# Step 25: layers
 
 ## Goal
 
-The app starts, but nobody can talk to it. Add the first HTTP endpoint, so Dhia's phone can say hello to Jibli. (Slide: Spring Boot 4/14, hello endpoint.)
+If everything lives in one controller, Jibli turns into a mess after ten features. Split the backend into three layers, each with one job, before real code arrives. (Slide: Spring Boot 5/14, layers.)
+
+```
+Client -> Controller -> Service -> Repository -> Database
+```
 
 ## Tasks
 
-- [ ] In `tn.jibli.HelloController`, add the annotation that makes it a REST controller.
-- [ ] Add a method that answers `GET /hello` with the text `Hello from Jibli!`.
-- [ ] Start the app with `./mvnw spring-boot:run` and open <http://localhost:8080/hello> in the browser.
+- [ ] Create the package `tn.jibli.controller` and move `HelloController` into it.
+- [ ] In the same package create `OrderController`, annotated with `@RestController`.
+- [ ] Create `tn.jibli.service.OrderService`, annotated with `@Service`.
+- [ ] Create `tn.jibli.repository.OrderRepository`, a plain class annotated with `@Repository` for now. We replace it in step 27.
 
 ## Hints
 
-1. `@RestController` on the class turns the returned value into the HTTP response body.
-2. `@GetMapping("/hello")` on a method says which URL and which HTTP method it answers.
-3. Do not forget the imports from `org.springframework.web.bind.annotation`.
-4. Stop the app with Ctrl+C before running the tests, otherwise the port stays busy if you run it in the background.
+1. The controller deals with HTTP, the service with business rules, the repository with data. A layer only talks to the one below it.
+2. `@Service` and `@Repository` do the same as `@Component` for Spring, but tell readers (and tools) what the class is for.
+3. Use your IDE's Move refactoring for `HelloController`, then check that `/hello` still works.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step24*'
+./mvnw -q test -Dtest='Step25*'
 ```
 
-Green means a `GET /hello` request returns status 200 and the exact text.
+Green means the four classes are in the right packages with the right annotations, Spring created them, and `/hello` still answers.
 
 ## Stretch
 
-- Make `GET /hello?name=Dhia` answer `Hello Dhia, welcome to Jibli!`, and keep plain `/hello` working. Look at `@RequestParam`.
-
-## Solution notes
-
-Spring finds `HelloController` at startup (it is under `tn.jibli`), reads the annotations, and connects `GET /hello` to the method. You never call `hello()`, the framework does when a request arrives. A common mistake is writing `@Controller` instead of `@RestController`: Spring then looks for a page template called `Hello from Jibli!` and answers with an error.
+- Why would it be a bad idea for the controller to talk to the repository directly?
