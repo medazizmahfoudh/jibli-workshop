@@ -29,3 +29,7 @@ Green means the file agrees with the real `pom.xml`: same group, artifact, packa
 ## Stretch
 
 - Which dependencies would Initializr add if you picked Spring Security? Do not add it, just look.
+
+## Solution notes
+
+Initializr produces the same kind of `pom.xml` you wrote in step 22, plus the main class and a test, so you can start a new project in a minute. The "dependency" names on the site are friendly labels for one or more starters. A common mistake is picking a Spring Boot snapshot or milestone version, which can change from one day to the next.
