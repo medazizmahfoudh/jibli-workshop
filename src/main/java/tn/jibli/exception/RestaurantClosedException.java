@@ -1,9 +1,9 @@
 package tn.jibli.exception;
 
+// unchecked: callers are not forced to catch it, but they can
 public class RestaurantClosedException extends RuntimeException {
 
     public RestaurantClosedException(String restaurantName) {
-        // TODO(step-19): the message is "Restaurant closed: <name>"
-        super("TODO(step-19)");
+        super("Restaurant closed: " + restaurantName);
     }
 }

@@ -28,3 +28,7 @@ Green means a closed restaurant throws the right exception with the right messag
 ## Stretch
 
 - Why is a `RuntimeException` a good choice here, and when would you prefer a checked exception?
+
+## Solution notes
+
+`throw` leaves the method immediately, and the nearest matching `catch` up the call chain takes over. A custom exception gives the problem a name that means something in the business, which Spring will use later to pick an HTTP status. A common mistake is catching `Exception` everywhere and hiding real bugs, catch the specific type you can handle.

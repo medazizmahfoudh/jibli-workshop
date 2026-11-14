@@ -1,17 +1,24 @@
 package tn.jibli.basics;
 
+import tn.jibli.exception.RestaurantClosedException;
 import tn.jibli.model.Order;
 import tn.jibli.model.Restaurant;
 
 public class OrderPlacer {
 
     public static Order placeOrder(Restaurant restaurant, String product, double total) {
-        // TODO(step-19): throw RestaurantClosedException when the restaurant is closed
-        throw new UnsupportedOperationException("TODO(step-19)");
+        if (!restaurant.isOpen()) {
+            throw new RestaurantClosedException(restaurant.getName());
+        }
+        return new Order(restaurant.getName(), product, total);
     }
 
     public static String tryPlace(Restaurant restaurant, String product, double total) {
-        // TODO(step-19): "Restaurant closed" or "Order accepted"
-        throw new UnsupportedOperationException("TODO(step-19)");
+        try {
+            placeOrder(restaurant, product, total);
+            return "Order accepted";
+        } catch (RestaurantClosedException e) {
+            return "Restaurant closed";
+        }
     }
 }
