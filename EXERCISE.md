@@ -32,3 +32,7 @@ Expected: compile errors in `Step12EncapsulationTest` until the setters exist.
 ## Stretch
 
 - Should a total of exactly 0 be allowed? Discuss, then decide where that rule belongs.
+
+## Solution notes
+
+Encapsulation means the object guards its own data, so no code anywhere can put it in an invalid state. Putting the checks in the setters and calling them from the constructor keeps every rule in one place. A common mistake is validating in the constructor only, and then letting a setter accept the very value the constructor refused.
