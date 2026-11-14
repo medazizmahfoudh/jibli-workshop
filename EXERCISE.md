@@ -32,3 +32,7 @@ Green means the four classes are in the right packages with the right annotation
 ## Stretch
 
 - Why would it be a bad idea for the controller to talk to the repository directly?
+
+## Solution notes
+
+Each layer has one reason to change: the controller when the API changes, the service when a business rule changes, the repository when the storage changes. Spring finds all of them through scanning, so no wiring code is needed yet. A common mistake is moving the class in the file system but not under the scanned package, for example outside `tn.jibli`, so the bean never appears.
