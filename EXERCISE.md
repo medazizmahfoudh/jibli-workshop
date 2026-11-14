@@ -1,35 +1,30 @@
-# Step 23: Spring Initializr
+# Step 24: the first endpoint
 
 ## Goal
 
-Nobody writes a Spring pom from scratch. The Spring team runs a website that generates one. Use it to recreate the project you already have, and see that it matches what you wrote by hand. (Slide: Spring Boot 3/14, Spring Initializr.)
+The app starts, but nobody can talk to it. Add the first HTTP endpoint, so Dhia's phone can say hello to Jibli. (Slide: Spring Boot 4/14, hello endpoint.)
 
 ## Tasks
 
-- [ ] Open <https://start.spring.io>.
-- [ ] Choose Maven, Java, the latest stable Spring Boot 3.x, group `tn.jibli`, artifact `jibli`, packaging Jar, Java 21.
-- [ ] Add the dependencies that match our `pom.xml`: Spring Web, Spring Data JPA and H2 Database.
-- [ ] Click Explore (do not download yet) and compare the generated `pom.xml` with ours.
-- [ ] Fill in `docs/initializr.properties` with the values you chose.
+- [ ] In `tn.jibli.HelloController`, add the annotation that makes it a REST controller.
+- [ ] Add a method that answers `GET /hello` with the text `Hello from Jibli!`.
+- [ ] Start the app with `./mvnw spring-boot:run` and open <http://localhost:8080/hello> in the browser.
 
 ## Hints
 
-1. Each dependency name in Initializr turns into one or more `artifactId` entries in the pom.
-2. Packaging is `jar` or `war`. Our pom does not say, which means the default.
-3. List the dependencies like this: `dependencies=Spring Web, Spring Data JPA, H2 Database`.
+1. `@RestController` on the class turns the returned value into the HTTP response body.
+2. `@GetMapping("/hello")` on a method says which URL and which HTTP method it answers.
+3. Do not forget the imports from `org.springframework.web.bind.annotation`.
+4. Stop the app with Ctrl+C before running the tests, otherwise the port stays busy if you run it in the background.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step23*'
+./mvnw -q test -Dtest='Step24*'
 ```
 
-Green means the file agrees with the real `pom.xml`: same group, artifact, packaging, Java version and dependencies.
+Green means a `GET /hello` request returns status 200 and the exact text.
 
 ## Stretch
 
-- Which dependencies would Initializr add if you picked Spring Security? Do not add it, just look.
-
-## Solution notes
-
-Initializr produces the same kind of `pom.xml` you wrote in step 22, plus the main class and a test, so you can start a new project in a minute. The "dependency" names on the site are friendly labels for one or more starters. A common mistake is picking a Spring Boot snapshot or milestone version, which can change from one day to the next.
+- Make `GET /hello?name=Dhia` answer `Hello Dhia, welcome to Jibli!`, and keep plain `/hello` working. Look at `@RequestParam`.
