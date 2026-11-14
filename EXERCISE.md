@@ -30,3 +30,7 @@ Green means the constant is really `static final`, the counter counts only valid
 ## Stretch
 
 - What would happen if `createdCount` were not `static`?
+
+## Solution notes
+
+A `static` member belongs to the class and exists once, so every order sees the same fee and the same counter. `final` on a `double` makes it a real constant. Shared mutable state is fine for a small counter but is a trap in bigger programs, which is why the tests reset it. A common mistake is incrementing the counter before validation, which counts orders that never existed.

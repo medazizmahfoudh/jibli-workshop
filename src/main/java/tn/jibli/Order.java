@@ -2,10 +2,9 @@ package tn.jibli;
 
 public class Order {
 
-    // TODO(step-13): this must be a constant, shared by all orders, with the value 4.0
-    public static double DELIVERY_FEE = 0.0;
+    // static: one copy for the whole class. final: it can never change.
+    public static final double DELIVERY_FEE = 4.0;
 
-    // TODO(step-13): the number of orders created so far, shared by all orders
     private static int createdCount = 0;
 
     private String restaurant;
@@ -18,22 +17,21 @@ public class Order {
         setRestaurant(restaurant);
         setProduct(product);
         setTotal(total);
-        // TODO(step-13): count this order
+        // only reached when the values were accepted
+        createdCount++;
     }
 
     public static int getCreatedCount() {
-        // TODO(step-13)
-        throw new UnsupportedOperationException("TODO(step-13)");
+        return createdCount;
     }
 
+    // used by tests to start from zero
     static void resetCounter() {
-        // TODO(step-13)
-        throw new UnsupportedOperationException("TODO(step-13)");
+        createdCount = 0;
     }
 
     public double totalWithFee() {
-        // TODO(step-13): total plus the delivery fee
-        throw new UnsupportedOperationException("TODO(step-13)");
+        return total + DELIVERY_FEE;
     }
 
     protected String audit() {
