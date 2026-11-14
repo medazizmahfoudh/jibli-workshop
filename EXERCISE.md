@@ -1,33 +1,33 @@
-# Step 06: methods
+# Step 07: classes and objects
 
 ## Goal
 
-The receipt needs a tip, a function that tries to change the total, and a discount on the whole cart. The tests show what Java really passes to a method: a copy of the value, or a copy of the reference. (Slide: Java 6/20, methods.)
+So far an order was just numbers and text floating around. Give Jibli a real `Order` that groups the restaurant, the product and the total, so Dhia's order from Mamma Chemi travels as one thing. (Slide: Java 7/20, classes and objects.)
 
 ## Tasks
 
-- [ ] `Receipt.withTip(double total, double tip)` returns the total plus the tip.
-- [ ] `Receipt.tryToChange(double total)` is a `void` method that sets its parameter to 0. Write it, then look at what happens to the caller's variable.
-- [ ] `Receipt.applyDiscountInPlace(double[] prices, int percent)` reduces every price in the array by that percentage, without returning anything.
+- [ ] Open `src/main/java/tn/jibli/Order.java`. It is an empty class.
+- [ ] Add three fields: `String restaurant`, `String product` and `double total`. Do not write a constructor and do not add any modifier yet.
+- [ ] Look at the test to see how objects are created and used.
 
 ## Hints
 
-1. A `void` method has no `return value`, it just does its work.
-2. A `double` parameter is a copy. An array parameter is a copy of the reference, so both names point to the same array.
-3. For the discount, a price of 20.0 with 50 percent becomes 10.0.
+1. A field is a variable declared inside the class but outside any method.
+2. Every `new Order()` gives a separate object with its own copy of each field.
+3. `String restaurant;` is a complete field declaration.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step06*'
+./mvnw -q test -Dtest='Step07*'
 ```
 
-Green means the primitive stayed untouched and the array content did change. Make sure you can say why.
+Green means two orders hold different values at the same time.
+
+## Heads-up
+
+Expected: compile errors in `Step07ClassesTest` until you add the fields. That is the point of this step, the test cannot compile without them.
 
 ## Stretch
 
-- Write a second version of `withTip` that takes a percentage tip instead of an amount. Same name, different parameters. That is overloading.
-
-## Solution notes
-
-Java always passes a copy. For a `double` the copy is the number itself, so the caller never sees the change. For an array (or any object) the copy is the reference, so changing the elements is visible to the caller, but pointing the parameter at a new array is not. A common mistake is expecting `tryToChange` to modify the variable of the caller.
+- Create a third order for Dar Lablabi in `Main` and print its fields.
