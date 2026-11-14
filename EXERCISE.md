@@ -1,34 +1,30 @@
-# Step 14: inheritance
+# Step 15: interfaces
 
 ## Goal
 
-Jibli delivers in three ways: standard (4 TND), express (7 TND) and pickup (free). They are all deliveries, they only differ in the fee. Model that without copying code. (Slide: Java 14/20, inheritance.)
+Dhia can pay by card or in cash. The rest of Jibli should not care which one, it only needs to know that something can pay. Describe that with an interface. (Slide: Java 15/20, interfaces.)
 
 ## Tasks
 
-- [ ] `Delivery.fee()` returns the standard fee, `Order.DELIVERY_FEE`.
-- [ ] Make `ExpressDelivery` extend `Delivery` and replace `fee()` so it returns 7.0.
-- [ ] Make `PickupDelivery` extend `Delivery` and replace `fee()` so it returns 0.0.
+- [ ] Create `interface Payment` with one method `String pay(double amount)`.
+- [ ] Make `CardPayment` implement it and return `"Paid 25.0 TND by card"` for an amount of 25.0.
+- [ ] Make `CashPayment` implement it and return `"Paid 25.0 TND in cash"`.
 
 ## Hints
 
-1. `class B extends A` gives B everything public in A.
-2. A subclass can write a method with the same signature to replace the parent version. This is overriding.
-3. Reuse the constant from step 13 in `Delivery`, do not type 4.0 again.
-4. `public class ExpressDelivery extends Delivery { ... }`
+1. An interface declares what a class can do, not how. Its methods have no body.
+2. `implements` is to interfaces what `extends` is to classes.
+3. A class that implements an interface must provide every method of it.
+4. Build the text with the amount: `"Paid " + amount + " TND by card"`.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step14*'
+./mvnw -q test -Dtest='Step15*'
 ```
 
-Green means the three fees are right and both subclasses really extend `Delivery`.
+Green means `Payment` exists as an interface, both classes implement it, and the messages are right.
 
 ## Stretch
 
-- Add `ScooterDelivery` with a fee of 5.0. Which existing class did you have to touch? (None should change.)
-
-## Solution notes
-
-The subclass inherits what the parent has and only writes what is different. Overriding means the same name and the same parameters, so the JVM calls the subclass version on a subclass object. A common mistake is a tiny difference in the signature, such as `fee(int x)`, which creates a new method instead of replacing the old one. Step 20 shows how `@Override` catches that.
+- Could a class implement two interfaces? Could it extend two classes?
