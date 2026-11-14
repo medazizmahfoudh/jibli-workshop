@@ -1,33 +1,29 @@
-# Step 05: loops and arrays
+# Step 06: methods
 
 ## Goal
 
-Dhia's cart is a list of prices. Jibli needs the total, the most expensive item, and a way to find a product by name. (Slide: Java 5/20, loops and arrays.)
+The receipt needs a tip, a function that tries to change the total, and a discount on the whole cart. The tests show what Java really passes to a method: a copy of the value, or a copy of the reference. (Slide: Java 6/20, methods.)
 
 ## Tasks
 
-- [ ] `Cart.sum(double[] prices)` adds all prices with a `for` loop.
-- [ ] `Cart.mostExpensive(double[] prices)` returns the biggest price using an enhanced `for` loop. An empty array gives 0.0.
-- [ ] `Cart.indexOf(String[] names, String wanted)` returns the position of `wanted` using a `while` loop, or -1 when it is not there.
+- [ ] `Receipt.withTip(double total, double tip)` returns the total plus the tip.
+- [ ] `Receipt.tryToChange(double total)` is a `void` method that sets its parameter to 0. Write it, then look at what happens to the caller's variable.
+- [ ] `Receipt.applyDiscountInPlace(double[] prices, int percent)` reduces every price in the array by that percentage, without returning anything.
 
 ## Hints
 
-1. `prices.length` is the number of elements, and the first index is 0.
-2. For `mostExpensive`, start with 0.0 and replace it whenever you see something bigger.
-3. For `indexOf`, keep a counter `i`, stop when `i == names.length` or when you found the name. Compare strings with `equals`, not `==`.
+1. A `void` method has no `return value`, it just does its work.
+2. A `double` parameter is a copy. An array parameter is a copy of the reference, so both names point to the same array.
+3. For the discount, a price of 20.0 with 50 percent becomes 10.0.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step05*'
+./mvnw -q test -Dtest='Step06*'
 ```
 
-Green means all three methods behave, including the empty array and the missing name.
+Green means the primitive stayed untouched and the array content did change. Make sure you can say why.
 
 ## Stretch
 
-- Write `Cart.average(double[] prices)`. What should it return for an empty array?
-
-## Solution notes
-
-Use a plain `for` when you need the index, an enhanced `for` when you only need each element, and `while` when you stop on a condition rather than on a count. Comparing strings with `==` checks if they are the same object, so use `equals`. A common mistake is writing `i <= prices.length` and getting an `ArrayIndexOutOfBoundsException`.
+- Write a second version of `withTip` that takes a percentage tip instead of an amount. Same name, different parameters. That is overloading.
