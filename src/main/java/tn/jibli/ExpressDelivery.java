@@ -1,10 +1,9 @@
 package tn.jibli;
 
-// TODO(step-14): this class must extend Delivery
-public class ExpressDelivery {
+// extends: an ExpressDelivery is a Delivery with its own fee
+public class ExpressDelivery extends Delivery {
 
     public double fee() {
-        // TODO(step-14): 7.0
-        throw new UnsupportedOperationException("TODO(step-14)");
+        return 7.0;
     }
 }

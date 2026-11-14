@@ -28,3 +28,7 @@ Green means the three fees are right and both subclasses really extend `Delivery
 ## Stretch
 
 - Add `ScooterDelivery` with a fee of 5.0. Which existing class did you have to touch? (None should change.)
+
+## Solution notes
+
+The subclass inherits what the parent has and only writes what is different. Overriding means the same name and the same parameters, so the JVM calls the subclass version on a subclass object. A common mistake is a tiny difference in the signature, such as `fee(int x)`, which creates a new method instead of replacing the old one. Step 20 shows how `@Override` catches that.
