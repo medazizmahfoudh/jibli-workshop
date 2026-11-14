@@ -32,3 +32,7 @@ Expected: compile errors in `Step21FrameworkTest` until the dependency is added 
 ## Stretch
 
 - Run `JibliApplication` from your IDE. Spring starts and stops straight away, can you see why? (There is nothing to keep it alive yet.)
+
+## Solution notes
+
+Inversion of control means the framework is in charge: you mark a class with `@Component` and Spring decides when to create it and who gets it. By default there is one shared instance per class (a singleton bean). A common mistake is putting `JibliApplication` in a sub-package, or the component outside it, so Spring never finds the class to scan.
