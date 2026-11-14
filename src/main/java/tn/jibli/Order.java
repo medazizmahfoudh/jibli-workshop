@@ -1,5 +1,9 @@
 package tn.jibli;
 
 class Order {
-    // TODO(step-07): add the fields restaurant, product and total
+
+    // no modifier yet: any class in the same package can read and write these
+    String restaurant;
+    String product;
+    double total;
 }

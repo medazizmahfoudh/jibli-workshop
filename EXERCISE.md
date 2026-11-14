@@ -31,3 +31,7 @@ Expected: compile errors in `Step07ClassesTest` until you add the fields. That i
 ## Stretch
 
 - Create a third order for Dar Lablabi in `Main` and print its fields.
+
+## Solution notes
+
+A class is the blueprint and `new` builds one object from it in memory, with its own copy of every field. Without a constructor, Java gives the class a default one that takes no arguments and leaves the fields at their defaults (`null`, `0.0`). A common mistake is thinking the fields are shared between orders. They are not, only `static` fields are shared (step 13).
