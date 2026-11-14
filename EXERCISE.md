@@ -30,3 +30,7 @@ Green means all five methods give the right values, including the integer divisi
 ## Stretch
 
 - What does `dinars(-3.7)` return? Is that what a shop would want?
+
+## Solution notes
+
+Division of two `int` values stays an `int`, so the decimals are lost before anything else happens. Cast one operand to `double` first, and put the cast on the operand, not on the result. A common mistake is writing `(double) (7 / 2)`, which still gives 3.0.

@@ -3,27 +3,26 @@ package tn.jibli;
 public class Calc {
 
     public static double total(double subtotal, double fee) {
-        // TODO(step-03)
-        throw new UnsupportedOperationException("TODO(step-03)");
+        return subtotal + fee;
     }
 
     public static double applyDiscount(double subtotal, int percent) {
-        // TODO(step-03): careful with integer division
-        throw new UnsupportedOperationException("TODO(step-03)");
+        // subtotal is a double, so the whole expression stays in double
+        return subtotal - subtotal * percent / 100;
     }
 
     public static int dinars(double amount) {
-        // TODO(step-03): cast to int
-        throw new UnsupportedOperationException("TODO(step-03)");
+        // a cast cuts the decimals, it does not round
+        return (int) amount;
     }
 
     public static double averageItems(int totalItems, int orders) {
-        // TODO(step-03): 7 items in 2 orders is 3.5, not 3
-        throw new UnsupportedOperationException("TODO(step-03)");
+        // cast one side first, otherwise 7 / 2 is 3
+        return (double) totalItems / orders;
     }
 
     public static boolean isLoyaltyOrder(int orderNumber) {
-        // TODO(step-03): use %
-        throw new UnsupportedOperationException("TODO(step-03)");
+        // % is the remainder of the division
+        return orderNumber % 5 == 0;
     }
 }
