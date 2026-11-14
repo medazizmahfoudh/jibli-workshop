@@ -28,3 +28,7 @@ Green means good orders are saved, bad ones are refused, and nothing reaches the
 ## Stretch
 
 - Move the check into a private method `checkRules(Order order)`. You will reuse it in step 31.
+
+## Solution notes
+
+The service is where business rules live: the controller does not know them and the repository does not care. Spring injected the repository into the field for us, you never created it. A common mistake is saving first and checking afterwards, which leaves invalid data in the database when the check fails.
