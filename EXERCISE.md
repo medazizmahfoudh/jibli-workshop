@@ -27,3 +27,7 @@ Green means the primitive stayed untouched and the array content did change. Mak
 ## Stretch
 
 - Write a second version of `withTip` that takes a percentage tip instead of an amount. Same name, different parameters. That is overloading.
+
+## Solution notes
+
+Java always passes a copy. For a `double` the copy is the number itself, so the caller never sees the change. For an array (or any object) the copy is the reference, so changing the elements is visible to the caller, but pointing the parameter at a new array is not. A common mistake is expecting `tryToChange` to modify the variable of the caller.
