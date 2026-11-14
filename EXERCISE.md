@@ -37,3 +37,7 @@ Green means the five operations work end to end against the real H2 database, in
 ## Stretch
 
 - Try it for real with curl: create an order, list it, change its total, delete it.
+
+## Solution notes
+
+REST maps each operation to an HTTP method on the same URL: POST creates (201), GET reads (200), PUT replaces (200), DELETE removes (204). A missing resource is a 404, which is what `ResponseStatusException` produces. A common mistake is returning `null` for an unknown id, which gives a 200 with an empty body and hides the problem from the client.

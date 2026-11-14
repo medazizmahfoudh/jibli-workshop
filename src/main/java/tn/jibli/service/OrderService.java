@@ -25,23 +25,32 @@ public class OrderService {
     }
 
     public List<Order> findAll() {
-        // TODO(step-31)
-        throw new UnsupportedOperationException("TODO(step-31)");
+        return repo.findAll();
     }
 
     public Optional<Order> findById(Long id) {
-        // TODO(step-31)
-        throw new UnsupportedOperationException("TODO(step-31)");
+        return repo.findById(id);
     }
 
     public Optional<Order> update(Long id, Order newData) {
-        // TODO(step-31): empty when the id does not exist, otherwise copy the fields, check the rules and save
-        throw new UnsupportedOperationException("TODO(step-31)");
+        Optional<Order> existing = repo.findById(id);
+        if (existing.isEmpty()) {
+            return Optional.empty();
+        }
+        checkRules(newData);
+        Order order = existing.get();
+        order.setRestaurant(newData.getRestaurant());
+        order.setProduct(newData.getProduct());
+        order.setTotal(newData.getTotal());
+        return Optional.of(repo.save(order));
     }
 
     public boolean delete(Long id) {
-        // TODO(step-31): false when the id does not exist
-        throw new UnsupportedOperationException("TODO(step-31)");
+        if (!repo.existsById(id)) {
+            return false;
+        }
+        repo.deleteById(id);
+        return true;
     }
 
     private void checkRules(Order order) {
