@@ -28,3 +28,7 @@ Green means `Payment` exists as an interface, both classes implement it, and the
 ## Stretch
 
 - Could a class implement two interfaces? Could it extend two classes?
+
+## Solution notes
+
+An interface says what an object can do and leaves the how to each class. Code that only knows the interface works with every present and future implementation. Spring Data and many other tools rely on this idea. A common mistake is forgetting `public` on the method in the implementing class: interface methods are public, so the implementation must be too.
