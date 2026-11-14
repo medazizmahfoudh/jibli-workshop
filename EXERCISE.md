@@ -27,3 +27,7 @@ Green means the sum is right and the overflow was caught.
 ## Stretch
 
 - What is the biggest `n` for which `sumTo(n)` still works on your machine? How would a loop compare?
+
+## Solution notes
+
+Each call gets a frame on the stack with its parameters and local variables, and the frame disappears when the method returns. A recursion without a stopping case keeps adding frames until the JVM throws `StackOverflowError`. A common mistake is forgetting the stopping case or moving towards it in the wrong direction (`sumTo(n + 1)`).
