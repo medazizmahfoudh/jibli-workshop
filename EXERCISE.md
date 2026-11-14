@@ -27,3 +27,7 @@ Green means you can save, list, find and delete orders through your interface.
 ## Stretch
 
 - Try adding `List<Order> findByRestaurant(String restaurant);` and write a quick test. You will need it in step 34.
+
+## Solution notes
+
+`JpaRepository` already declares the usual operations, and Spring Data creates a class that implements them for your interface at startup. This is the interface idea from step 15 used by a framework: you depend on the contract, the implementation is generated. A common mistake is leaving `@Repository` on an interface and expecting it to be enough, the thing that matters is `extends JpaRepository`.

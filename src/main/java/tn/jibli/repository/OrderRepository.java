@@ -1,8 +1,8 @@
 package tn.jibli.repository;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import tn.jibli.model.Order;
 
-// TODO(step-27): replace this class with an interface that extends JpaRepository<Order, Long>
-@Repository
-public class OrderRepository {
+// only an interface: Spring Data builds the implementation when the app starts
+public interface OrderRepository extends JpaRepository<Order, Long> {
 }
