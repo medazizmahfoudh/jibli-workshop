@@ -1,34 +1,31 @@
-# Step 22: Maven
+# Step 23: Spring Initializr
 
 ## Goal
 
-Jibli needs a web server, a database layer and a database. In Maven you do not download jars by hand, you list what you need in `pom.xml` and Maven fetches it, with everything it depends on. (Slide: Spring Boot 2/14, Maven.)
+Nobody writes a Spring pom from scratch. The Spring team runs a website that generates one. Use it to recreate the project you already have, and see that it matches what you wrote by hand. (Slide: Spring Boot 3/14, Spring Initializr.)
 
 ## Tasks
 
-- [ ] Add these dependencies to `pom.xml`: `spring-boot-starter-web`, `spring-boot-starter-data-jpa`, and `com.h2database:h2` with scope `runtime`.
-- [ ] Add a `build` section with the `spring-boot-maven-plugin`, configured with `<mainClass>tn.jibli.JibliApplication</mainClass>`.
-- [ ] Explore (not tested): run `./mvnw dependency:tree`, then `./mvnw package`, then `java -jar target/jibli-0.0.1-SNAPSHOT.jar`.
+- [ ] Open <https://start.spring.io>.
+- [ ] Choose Maven, Java, the latest stable Spring Boot 3.x, group `tn.jibli`, artifact `jibli`, packaging Jar, Java 21.
+- [ ] Add the dependencies that match our `pom.xml`: Spring Web, Spring Data JPA and H2 Database.
+- [ ] Click Explore (do not download yet) and compare the generated `pom.xml` with ours.
+- [ ] Fill in `docs/initializr.properties` with the values you chose.
 
 ## Hints
 
-1. A "starter" is a dependency that pulls in a whole set of libraries that work together.
-2. The `runtime` scope means the jar is needed to run the app, but not to compile it.
-3. The project has two classes with a `main` method: `Main` and `JibliApplication`. The plugin needs to be told which one starts the app.
-4. Dependencies go in `<dependencies>`, the plugin in `<build><plugins>`.
+1. Each dependency name in Initializr turns into one or more `artifactId` entries in the pom.
+2. Packaging is `jar` or `war`. Our pom does not say, which means the default.
+3. List the dependencies like this: `dependencies=Spring Web, Spring Data JPA, H2 Database`.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step22*'
+./mvnw -q test -Dtest='Step23*'
 ```
 
-Green means the pom has the right dependencies and plugin, and the Spring context still starts with them.
+Green means the file agrees with the real `pom.xml`: same group, artifact, packaging, Java version and dependencies.
 
 ## Stretch
 
-- Find `tomcat-embed-core` in the output of `dependency:tree`. Which of your dependencies brought it in?
-
-## Solution notes
-
-Maven reads `pom.xml`, downloads each dependency and the ones they need (transitive dependencies), and builds the project. The Spring Boot parent chooses compatible versions, which is why no dependency has a `<version>`. With two classes having a `main`, `spring-boot:repackage` cannot guess which one to start, so `<mainClass>` is needed. A common mistake is forgetting to reload the Maven project in the IDE after editing the pom.
+- Which dependencies would Initializr add if you picked Spring Security? Do not add it, just look.
