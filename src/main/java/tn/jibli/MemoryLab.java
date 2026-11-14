@@ -3,17 +3,19 @@ package tn.jibli;
 public class MemoryLab {
 
     public static Order copyOf(Order o) {
-        // TODO(step-10): a new Order with the same values
-        throw new UnsupportedOperationException("TODO(step-10)");
+        // new puts a second object on the heap, with its own values
+        return new Order(o.getRestaurant(), o.getProduct(), o.getTotal());
     }
 
     public static boolean sameObject(Order a, Order b) {
-        // TODO(step-10): compare the references
-        throw new UnsupportedOperationException("TODO(step-10)");
+        // == on objects compares the references (the addresses)
+        return a == b;
     }
 
     public static boolean sameValues(Order a, Order b) {
-        // TODO(step-10): compare the values, strings with equals
-        throw new UnsupportedOperationException("TODO(step-10)");
+        // equals compares the characters of the strings
+        return a.getRestaurant().equals(b.getRestaurant())
+                && a.getProduct().equals(b.getProduct())
+                && a.getTotal() == b.getTotal();
     }
 }

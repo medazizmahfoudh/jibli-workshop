@@ -28,3 +28,7 @@ Green means a copy is a different object with the same values, and your string c
 ## Stretch
 
 - Draw the stack and the heap for `Order a = new Order(...); Order b = a;`. How many objects are there?
+
+## Solution notes
+
+Local variables and method calls live on the stack. Objects live on the heap, and a variable of a class type only holds the reference. `Order b = a;` copies the reference, not the order. A common mistake is comparing strings with `==`: it sometimes works with literals (they are shared) and then fails with text coming from user input.
