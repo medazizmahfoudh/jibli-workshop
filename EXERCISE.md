@@ -1,39 +1,30 @@
-# Step 18: lists and maps
+# Step 19: exceptions
 
 ## Goal
 
-Jibli receives orders all day, so an array with a fixed size is not enough. Keep the orders in a list, and keep the restaurants in a map so Jibli can find one by its id. (Slide: Java 18/20, lists and maps.)
+Chapati Medina is closed tonight. If Dhia tries to order from it, Jibli must say so clearly instead of creating a ghost order. (Slide: Java 19/20, exceptions.)
 
 ## Tasks
 
-`Restaurant` (id, name, open flag) is already in `tn.jibli.model`. Write the class `tn.jibli.basics.OrderBook`:
-
-- [ ] `add(Order order)` and `size()`.
-- [ ] `orders()` returns the orders as a `List<Order>` that callers cannot modify.
-- [ ] `revenue()` adds up the totals of all orders.
-- [ ] `ordersFrom(String restaurantName)` returns only the orders of that restaurant.
-- [ ] `addRestaurant(Restaurant restaurant)` stores it in a `Map<Long, Restaurant>`, with its id as the key.
-- [ ] `findRestaurant(long id)` returns the restaurant, or `null` when the id is unknown.
+- [ ] Finish `tn.jibli.exception.RestaurantClosedException`. It is a `RuntimeException`, and its message is `"Restaurant closed: <name>"`.
+- [ ] `OrderPlacer.placeOrder(Restaurant r, String product, double total)` returns an `Order` for an open restaurant and throws `RestaurantClosedException` for a closed one.
+- [ ] `OrderPlacer.tryPlace(...)` takes the same arguments, catches the exception, and returns `"Restaurant closed"` or `"Order accepted"`.
 
 ## Hints
 
-1. Declare the fields with the interface type and build them with a concrete class: `List<Order> orders = new ArrayList<>();`.
-2. `map.get(key)` already returns `null` when the key is missing.
-3. `Collections.unmodifiableList(list)` gives a read-only view of a list.
-4. Returning your own list lets the caller change it behind your back. That is why `orders()` is read-only.
+1. `throw new SomeException(...)` stops the method right there.
+2. `try { ... } catch (SomeException e) { ... }` handles it so the program continues.
+3. The exception takes the restaurant name, and it builds the message by itself with `super(...)`.
+4. Use `r.isOpen()` and `r.getName()` from `Restaurant`.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step18*'
+./mvnw -q test -Dtest='Step19*'
 ```
 
-Green means every method works and the list you hand out cannot be modified.
+Green means a closed restaurant throws the right exception with the right message, and `tryPlace` never lets it escape.
 
 ## Stretch
 
-- Make `findRestaurant` return an `Optional<Restaurant>` instead of `null`. What changes for the callers?
-
-## Solution notes
-
-A `List` keeps the order and grows as needed, a `Map` finds a value from its key in constant time. Declaring the field as `List` and building an `ArrayList` lets you change the implementation later without touching the callers. A common mistake is returning the internal list directly, so any caller can add or remove orders without your class knowing.
+- Why is a `RuntimeException` a good choice here, and when would you prefer a checked exception?
