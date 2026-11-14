@@ -1,44 +1,35 @@
-# Step 17: packages
+# Step 18: lists and maps
 
 ## Goal
 
-Eighteen classes in one folder is already hard to read, and Jibli is just starting. Sort them into packages so everyone finds things where they expect. (Slide: Java 17/20, packages.)
+Jibli receives orders all day, so an array with a fixed size is not enough. Keep the orders in a list, and keep the restaurants in a map so Jibli can find one by its id. (Slide: Java 18/20, lists and maps.)
 
 ## Tasks
 
-- [ ] Create three packages and move the classes in with your IDE's Move refactoring (right click, Refactor, Move, or F6 in IntelliJ). The IDE updates the `package` lines and the imports for you.
+`Restaurant` (id, name, open flag) is already in `tn.jibli.model`. Write the class `tn.jibli.basics.OrderBook`:
 
-  | Package | Classes |
-  |---|---|
-  | `tn.jibli.basics` | `Greeter`, `Basics`, `Calc`, `DeliveryFee`, `Cart`, `Receipt`, `MemoryLab`, `Recursion` |
-  | `tn.jibli.model` | `Order`, `Delivery`, `ExpressDelivery`, `PickupDelivery` |
-  | `tn.jibli.payment` | `Payment`, `CardPayment`, `CashPayment`, `WalletPayment`, `Checkout` |
-
-- [ ] `Main` stays in `tn.jibli`. Make sure it still compiles.
-- [ ] Run all the tests. They were already moved to the matching packages for you.
+- [ ] `add(Order order)` and `size()`.
+- [ ] `orders()` returns the orders as a `List<Order>` that callers cannot modify.
+- [ ] `revenue()` adds up the totals of all orders.
+- [ ] `ordersFrom(String restaurantName)` returns only the orders of that restaurant.
+- [ ] `addRestaurant(Restaurant restaurant)` stores it in a `Map<Long, Restaurant>`, with its id as the key.
+- [ ] `findRestaurant(long id)` returns the restaurant, or `null` when the id is unknown.
 
 ## Hints
 
-1. The folder must match the package: `tn.jibli.model` lives in `src/main/java/tn/jibli/model`.
-2. A class in another package needs an `import`, and its public members must really be `public`.
-3. Without an IDE: create the folders, `git mv` each file, change the `package` line, and add the imports by hand.
+1. Declare the fields with the interface type and build them with a concrete class: `List<Order> orders = new ArrayList<>();`.
+2. `map.get(key)` already returns `null` when the key is missing.
+3. `Collections.unmodifiableList(list)` gives a read-only view of a list.
+4. Returning your own list lets the caller change it behind your back. That is why `orders()` is read-only.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test
+./mvnw -q test -Dtest='Step18*'
 ```
 
-Green means everything compiles in its new place and the whole suite still passes. The new `Step17` test checks the locations with `Class.forName`.
-
-## Heads-up
-
-The tests from steps 01 to 16 were moved into the mirrored packages and now import the classes from their future location. Expected: compile errors in many test files until the main classes are moved. `src/main` compiles the whole time.
+Green means every method works and the list you hand out cannot be modified.
 
 ## Stretch
 
-- What happens if you make `Order.note` public after the move? Why was package-private a bad idea once the classes are in different packages?
-
-## Solution notes
-
-A package is a folder plus a `package` line, and it gives every class a full name such as `tn.jibli.model.Order`. Classes in other packages need an `import`, and only `public` members are visible to them, which is why package-private tricks stop working after a move. A common mistake is moving the file in the file explorer without changing the `package` line, so the compiler complains about a mismatch.
+- Make `findRestaurant` return an `Optional<Restaurant>` instead of `null`. What changes for the callers?
