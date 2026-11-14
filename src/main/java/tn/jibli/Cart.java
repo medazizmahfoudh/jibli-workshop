@@ -3,17 +3,32 @@ package tn.jibli;
 public class Cart {
 
     public static double sum(double[] prices) {
-        // TODO(step-05): for loop
-        throw new UnsupportedOperationException("TODO(step-05)");
+        double total = 0;
+        for (int i = 0; i < prices.length; i++) {
+            total = total + prices[i];
+        }
+        return total;
     }
 
     public static double mostExpensive(double[] prices) {
-        // TODO(step-05): enhanced for loop, empty array gives 0.0
-        throw new UnsupportedOperationException("TODO(step-05)");
+        double max = 0.0;
+        // enhanced for: no index, we just visit each element
+        for (double price : prices) {
+            if (price > max) {
+                max = price;
+            }
+        }
+        return max;
     }
 
     public static int indexOf(String[] names, String wanted) {
-        // TODO(step-05): while loop, -1 if absent
-        throw new UnsupportedOperationException("TODO(step-05)");
+        int i = 0;
+        while (i < names.length) {
+            if (names[i].equals(wanted)) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
     }
 }

@@ -27,3 +27,7 @@ Green means all three methods behave, including the empty array and the missing 
 ## Stretch
 
 - Write `Cart.average(double[] prices)`. What should it return for an empty array?
+
+## Solution notes
+
+Use a plain `for` when you need the index, an enhanced `for` when you only need each element, and `while` when you stop on a condition rather than on a count. Comparing strings with `==` checks if they are the same object, so use `equals`. A common mistake is writing `i <= prices.length` and getting an `ArrayIndexOutOfBoundsException`.
