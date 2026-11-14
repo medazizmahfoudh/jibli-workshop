@@ -28,3 +28,7 @@ Green means a `POST /orders` with a JSON order succeeds and the response contain
 ## Stretch
 
 - Start the app and try the endpoint with curl: `curl -X POST localhost:8080/orders -H 'Content-Type: application/json' -d '{"restaurant":"Mamma Chemi","product":"Plat Healthy","total":25.0}'`.
+
+## Solution notes
+
+The controller is thin on purpose: it translates HTTP and JSON into Java objects and back, and delegates everything else. Jackson builds the `Order` from the JSON with the setters, so the validation of step 12 runs there too. A common mistake is forgetting `@RequestBody`, then Spring tries to read `order` as a form field and the object arrives empty.
