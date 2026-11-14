@@ -1,34 +1,35 @@
-# Step 19: exceptions
+# Step 20: annotations
 
 ## Goal
 
-Chapati Medina is closed tonight. If Dhia tries to order from it, Jibli must say so clearly instead of creating a ghost order. (Slide: Java 19/20, exceptions.)
+You have been reading `@` labels for a while. Now use `@Override` properly and write one annotation yourself, so the next part (Spring Boot) stops looking like magic. Jibli will mark its delivery modes that are still experimental. (Slide: Java 20/20, annotations.)
 
 ## Tasks
 
-- [ ] Finish `tn.jibli.exception.RestaurantClosedException`. It is a `RuntimeException`, and its message is `"Restaurant closed: <name>"`.
-- [ ] `OrderPlacer.placeOrder(Restaurant r, String product, double total)` returns an `Order` for an open restaurant and throws `RestaurantClosedException` for a closed one.
-- [ ] `OrderPlacer.tryPlace(...)` takes the same arguments, catches the exception, and returns `"Restaurant closed"` or `"Order accepted"`.
+- [ ] Add `@Override` to every method that overrides or implements something: `fee()` in `ExpressDelivery` and `PickupDelivery`, and `pay(...)` in `CardPayment`, `CashPayment` and `WalletPayment`.
+- [ ] Create the annotation `tn.jibli.annotation.Experimental`. It is kept at runtime, it can only be put on a type, and it has a `String value()` that defaults to `""`.
+- [ ] Put `@Experimental("Launching in Sfax first")` on `ExpressDelivery`.
+- [ ] Write `AnnotationReader.experimentalNote(Class<?> type)`. It returns `Optional.of(note)` when the class has the annotation and `Optional.empty()` otherwise.
 
 ## Hints
 
-1. `throw new SomeException(...)` stops the method right there.
-2. `try { ... } catch (SomeException e) { ... }` handles it so the program continues.
-3. The exception takes the restaurant name, and it builds the message by itself with `super(...)`.
-4. Use `r.isOpen()` and `r.getName()` from `Restaurant`.
+1. `@Override` has no effect at runtime, it only makes the compiler check your signature.
+2. An annotation is declared with `@interface`. Add `@Retention(RetentionPolicy.RUNTIME)` and `@Target(ElementType.TYPE)` to it.
+3. The element is declared like a method: `String value() default "";`.
+4. `type.getAnnotation(Experimental.class)` returns the annotation or `null`.
+
+## Explore (not tested)
+
+Change `fee()` to `fe()` in `ExpressDelivery` with `@Override` in place and read the compiler error. Then put it back. Without `@Override` that typo would have gone unnoticed.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step19*'
+./mvnw -q test -Dtest='Step20*'
 ```
 
-Green means a closed restaurant throws the right exception with the right message, and `tryPlace` never lets it escape.
+Green means the annotation is declared the right way and the reader finds the note. `@Override` itself cannot be tested because the compiler removes it.
 
 ## Stretch
 
-- Why is a `RuntimeException` a good choice here, and when would you prefer a checked exception?
-
-## Solution notes
-
-`throw` leaves the method immediately, and the nearest matching `catch` up the call chain takes over. A custom exception gives the problem a name that means something in the business, which Spring will use later to pick an HTTP status. A common mistake is catching `Exception` everywhere and hiding real bugs, catch the specific type you can handle.
+- Make the annotation usable on methods too. Which `@Target` values do you need?
