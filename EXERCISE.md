@@ -28,3 +28,7 @@ Green means a `GET /hello` request returns status 200 and the exact text.
 ## Stretch
 
 - Make `GET /hello?name=Dhia` answer `Hello Dhia, welcome to Jibli!`, and keep plain `/hello` working. Look at `@RequestParam`.
+
+## Solution notes
+
+Spring finds `HelloController` at startup (it is under `tn.jibli`), reads the annotations, and connects `GET /hello` to the method. You never call `hello()`, the framework does when a request arrives. A common mistake is writing `@Controller` instead of `@RestController`: Spring then looks for a page template called `Hello from Jibli!` and answers with an error.
