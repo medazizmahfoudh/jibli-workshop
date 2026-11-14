@@ -21,10 +21,13 @@
   </properties>
 
   <dependencies>
+    <!-- TODO(step-21): add the spring-boot-starter dependency here -->
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
+
 </project>
