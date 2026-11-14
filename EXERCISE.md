@@ -28,3 +28,7 @@ Green means the pom has the right dependencies and plugin, and the Spring contex
 ## Stretch
 
 - Find `tomcat-embed-core` in the output of `dependency:tree`. Which of your dependencies brought it in?
+
+## Solution notes
+
+Maven reads `pom.xml`, downloads each dependency and the ones they need (transitive dependencies), and builds the project. The Spring Boot parent chooses compatible versions, which is why no dependency has a `<version>`. With two classes having a `main`, `spring-boot:repackage` cannot guess which one to start, so `<mainClass>` is needed. A common mistake is forgetting to reload the Maven project in the IDE after editing the pom.

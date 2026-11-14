@@ -26,7 +26,19 @@
       <artifactId>spring-boot-starter</artifactId>
     </dependency>
 
-    <!-- TODO(step-22): add spring-boot-starter-web, spring-boot-starter-data-jpa and h2 (runtime) here -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>runtime</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -35,5 +47,15 @@
     </dependency>
   </dependencies>
 
-  <!-- TODO(step-22): add the spring-boot-maven-plugin in a build section -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>tn.jibli.JibliApplication</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
