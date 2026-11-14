@@ -1,44 +1,29 @@
-# Step 01: the JVM
+# Step 02: variables and types
 
 ## Goal
 
-Dhia installs Jibli and the first thing he sees is a welcome message. Write the code that builds it, then compile and run it yourself to see what the JVM does. (Slide: Java 1/20, JVM and JDK.)
+An order needs numbers and text: a product, a quantity and a price. Store them in variables of the right type and compute what Dhia owes for two Plat Healthy. (Slide: Java 2/20, variables and types.)
 
 ## Tasks
 
-- [ ] In `src/main/java/tn/jibli/Greeter.java`, make `welcome(String name)` return `"Welcome to Jibli, <name>!"`.
-- [ ] In `src/main/java/tn/jibli/Main.java`, print `Greeter.welcome("Dhia")` from `main`.
-- [ ] Compile and run it from the terminal without Maven (see the commands below).
+- [ ] In `Basics.java`, make `subtotal(int quantity, double unitPrice)` return quantity times price.
+- [ ] Make `describeOrder(String product, int quantity, double unitPrice)` return text like `2 x Plat Healthy = 25.0 TND`.
+- [ ] Use a local variable inside `describeOrder` instead of calling `subtotal` twice.
 
 ## Hints
 
-1. A method that returns text uses `return`, and `+` joins strings.
-2. `System.out.println(...)` prints a line.
-3. `return "Welcome to Jibli, " + name + "!";`
+1. `int` times `double` gives a `double`.
+2. Reuse your own `subtotal` method.
+3. `double sub = subtotal(quantity, unitPrice);` then join the pieces with `+`.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step01*'
+./mvnw -q test -Dtest='Step02*'
 ```
 
-Green means `welcome` and `Main` both do what the test expects.
-
-To see the JVM at work, compile and run by hand:
-
-```bash
-mkdir -p target/manual
-javac -d target/manual src/main/java/tn/jibli/*.java
-java -cp target/manual tn.jibli.Main
-javap -c -cp target/manual tn.jibli.Greeter
-```
-
-`javac` turns the `.java` files into `.class` files (bytecode), `java` starts the JVM that runs them, and `javap -c` shows the bytecode inside a class. The `target` folder is ignored by Git, so nothing you generate there ends up in a commit.
+Green means both methods return exactly the expected text and numbers.
 
 ## Stretch
 
-- Change the greeting for one name only, for example a different message when `name` is `"Dhia"`. Try it once with `if`, even though we have not seen `if` yet.
-
-## Solution notes
-
-`javac` compiles source into bytecode, and the JVM runs that bytecode, which is why the same `.class` file works on Windows, Linux and macOS. `main` must be `public static void main(String[] args)`, otherwise the JVM cannot find the entry point. A common mistake is forgetting that `+` between a String and a variable builds text, not a number.
+- Print the same text from `Main` for 3 x Plat Healthy at 12.5 TND.
