@@ -1,33 +1,32 @@
-# Step 02: variables and types
+# Step 03: operators and casts
 
 ## Goal
 
-An order needs numbers and text: a product, a quantity and a price. Store them in variables of the right type and compute what Dhia owes for two Plat Healthy. (Slide: Java 2/20, variables and types.)
+Jibli needs to add the delivery fee, apply discounts, show whole dinars and spot loyalty orders. These are small calculations, but integer division and casts hide traps. (Slide: Java 3/20, operators and casts.)
 
 ## Tasks
 
-- [ ] In `Basics.java`, make `subtotal(int quantity, double unitPrice)` return quantity times price.
-- [ ] Make `describeOrder(String product, int quantity, double unitPrice)` return text like `2 x Plat Healthy = 25.0 TND`.
-- [ ] Use a local variable inside `describeOrder` instead of calling `subtotal` twice.
+- [ ] `Calc.total(subtotal, fee)` returns subtotal plus fee.
+- [ ] `Calc.applyDiscount(subtotal, percent)` returns the subtotal reduced by that percentage (a 10% discount on 40.0 gives 36.0).
+- [ ] `Calc.dinars(amount)` returns the whole dinars as an `int`, cutting off the decimals.
+- [ ] `Calc.averageItems(totalItems, orders)` returns the average as a `double` (7 items in 2 orders is 3.5).
+- [ ] `Calc.isLoyaltyOrder(orderNumber)` is true when the order number is divisible by 5.
 
 ## Hints
 
-1. `int` times `double` gives a `double`.
-2. Reuse your own `subtotal` method.
-3. `double sub = subtotal(quantity, unitPrice);` then join the pieces with `+`.
+1. `7 / 2` is `3` in Java because both sides are `int`.
+2. A cast such as `(double) x` changes the type of one side before the division happens.
+3. `%` gives the remainder of a division. An order number divisible by 5 has remainder 0.
+4. For the discount, check where `percent / 100` ends up if both are `int`.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step02*'
+./mvnw -q test -Dtest='Step03*'
 ```
 
-Green means both methods return exactly the expected text and numbers.
+Green means all five methods give the right values, including the integer division cases.
 
 ## Stretch
 
-- Print the same text from `Main` for 3 x Plat Healthy at 12.5 TND.
-
-## Solution notes
-
-Each variable has a type that decides what it can hold: `int` for whole numbers, `double` for decimals, `String` for text. When an `int` meets a `double` in a calculation, Java widens the `int` automatically. A common mistake is storing money in an `int` and losing the decimals.
+- What does `dinars(-3.7)` return? Is that what a shop would want?
