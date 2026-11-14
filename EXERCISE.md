@@ -29,3 +29,7 @@ Green means the same `Checkout` code handles all payments and deliveries, includ
 ## Stretch
 
 - Add `D17Payment` (the mobile payment) in a new file. Does anything else need to change?
+
+## Solution notes
+
+Polymorphism lets one line of code do different things depending on the real object behind the variable. That is what makes `Checkout` closed to changes but open to new payments: `WalletPayment` was added without touching it. A common mistake is writing `if (p instanceof CardPayment)` inside the checkout, which brings back the long chain of conditions you wanted to avoid.

@@ -1,21 +1,28 @@
 package tn.jibli;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Checkout {
 
     public static String pay(Payment payment, double amount) {
-        // TODO(step-16)
-        throw new UnsupportedOperationException("TODO(step-16)");
+        // we only know it is a Payment, the real class decides what happens
+        return payment.pay(amount);
     }
 
     public static List<String> payAll(List<Payment> payments, double amount) {
-        // TODO(step-16): one receipt per payment, same order
-        throw new UnsupportedOperationException("TODO(step-16)");
+        List<String> receipts = new ArrayList<>();
+        for (Payment payment : payments) {
+            receipts.add(payment.pay(amount));
+        }
+        return receipts;
     }
 
     public static double totalFees(List<Delivery> deliveries) {
-        // TODO(step-16): add up the fees
-        throw new UnsupportedOperationException("TODO(step-16)");
+        double total = 0;
+        for (Delivery delivery : deliveries) {
+            total = total + delivery.fee();
+        }
+        return total;
     }
 }
