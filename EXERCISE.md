@@ -34,3 +34,7 @@ The step 07 test is gone: it wrote to the fields directly, which is exactly what
 ## Stretch
 
 - Try to write `order.total = 5;` in `Main`. Read the compiler message.
+
+## Solution notes
+
+`private` is the default choice for fields, then you open only what other classes really need. `protected` and package-private are visible inside the package, which is why the tests (same package) can still call `audit()` and read `note`. A common mistake is making everything `public` "to make it work", which brings back exactly the problem from step 07.
