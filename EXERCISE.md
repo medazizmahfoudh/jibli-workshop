@@ -1,43 +1,32 @@
-# Step 31: REST and CRUD
+# Step 32: Postman
 
 ## Goal
 
-An API that only creates orders is not much use. Dhia must also see his orders, change one, and cancel one. That is CRUD: create, read, update, delete. Each operation uses a different HTTP method and a meaningful status code. (Slide: Spring Boot 11/14, REST and CRUD.)
+Typing JSON in curl gets old quickly. Postman keeps your requests in a collection that you can run again, change, and share with a teammate. Build one for the order API. (Slide: Spring Boot 12/14, Postman.)
 
 ## Tasks
 
-Service (`OrderService`, stubs are already there):
-
-- [ ] `findAll()`, `findById(Long id)` (an `Optional`), `update(Long id, Order newData)` and `delete(Long id)` (returns whether something was deleted). `update` copies the fields of `newData` into the stored order and applies the same rules as `place`.
-
-Controller (`OrderController`):
-
-- [ ] `POST /orders` answers `201 Created`.
-- [ ] `GET /orders` returns the list of orders.
-- [ ] `GET /orders/{id}` returns one order, or `404` when it does not exist.
-- [ ] `PUT /orders/{id}` updates and returns the order, or `404`.
-- [ ] `DELETE /orders/{id}` answers `204 No Content`, or `404`.
+- [ ] Start the app: `./mvnw spring-boot:run`.
+- [ ] In Postman, create a collection called `Jibli` with a collection variable `baseUrl` set to `http://localhost:8080`.
+- [ ] Add five requests that use `{{baseUrl}}`: `POST /orders` (with a JSON body), `GET /orders`, `GET /orders/1`, `PUT /orders/1` (with a JSON body) and `DELETE /orders/1`.
+- [ ] Run them against the app. The ids may differ, use the id that `POST` returned.
+- [ ] Export the collection (Collection v2.1) to `postman/jibli.postman_collection.json`.
 
 ## Hints
 
-1. `@ResponseStatus(HttpStatus.CREATED)` sets the success status of a method.
-2. `@PathVariable Long id` reads the `{id}` of the URL.
-3. To answer 404, throw `new ResponseStatusException(HttpStatus.NOT_FOUND, "Order " + id + " not found")`.
-4. `Optional.orElseThrow(() -> ...)` turns an empty result into an exception in one line.
-5. `repo.existsById(id)` and `repo.deleteById(id)` are enough for the delete.
+1. A body for `POST` and `PUT` is raw JSON, for example `{"restaurant": "Mamma Chemi", "product": "Plat Healthy", "total": 25.0}`.
+2. Set the header `Content-Type: application/json` (Postman does it for raw JSON bodies).
+3. The three `GET`, `PUT` and `DELETE` by id requests need an id that exists. Create an order first.
+4. Stop the app with Ctrl+C when you are done.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step31*'
+./mvnw -q test -Dtest='Step32*'
 ```
 
-Green means the five operations work end to end against the real H2 database, including the 404 cases.
+Green means the exported file is valid JSON and contains the five kinds of request on `/orders`.
 
 ## Stretch
 
-- Try it for real with curl: create an order, list it, change its total, delete it.
-
-## Solution notes
-
-REST maps each operation to an HTTP method on the same URL: POST creates (201), GET reads (200), PUT replaces (200), DELETE removes (204). A missing resource is a 404, which is what `ResponseStatusException` produces. A common mistake is returning `null` for an unknown id, which gives a 200 with an empty body and hides the problem from the client.
+- Add a test script in Postman that checks the status code of the `POST` request is 201.
