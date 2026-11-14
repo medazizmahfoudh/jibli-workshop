@@ -27,3 +27,7 @@ Green means both methods return exactly the expected text and numbers.
 ## Stretch
 
 - Print the same text from `Main` for 3 x Plat Healthy at 12.5 TND.
+
+## Solution notes
+
+Each variable has a type that decides what it can hold: `int` for whole numbers, `double` for decimals, `String` for text. When an `int` meets a `double` in a calculation, Java widens the `int` automatically. A common mistake is storing money in an `int` and losing the decimals.
