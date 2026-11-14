@@ -1,34 +1,29 @@
-# Step 10: JVM memory
+# Step 11: stack and heap compared
 
 ## Goal
 
-Jibli sometimes has to copy an order, and sometimes has to ask "are these two the same order?". In Java that question has two answers, depending on whether you compare references or values. (Slide: Java 10/20, JVM memory.)
+Every method call takes room on the stack, and the stack is small. Write a recursive method that sums a number down to 1, then make the stack run out on purpose to see what the JVM does. (Slide: Java 11/20, stack and heap compared.)
 
 ## Tasks
 
-- [ ] `MemoryLab.copyOf(Order o)` returns a new object with the same restaurant, product and total.
-- [ ] `MemoryLab.sameObject(Order a, Order b)` is true only when both variables point to the very same object.
-- [ ] `MemoryLab.sameValues(Order a, Order b)` is true when restaurant, product and total are equal. Compare the strings with `equals`.
+- [ ] `Recursion.sumTo(int n)` returns 1 + 2 + ... + n by calling itself. For `n <= 0` it returns 0.
+- [ ] `Recursion.overflows()` calls a private method that calls itself forever, catches the `StackOverflowError`, and returns `true`.
 
 ## Hints
 
-1. A variable of a class type holds a reference (an address on the heap), not the object itself.
-2. `==` on references asks "same object?". `equals` on strings asks "same characters?".
-3. For the total, `==` is fine because `double` is a primitive.
-4. `new String("Mamma Chemi")` creates a different object than the literal `"Mamma Chemi"`, which is why the test uses it.
+1. A recursive method needs a stopping case, otherwise it never ends.
+2. `sumTo(n)` is `n + sumTo(n - 1)`.
+3. `StackOverflowError` is an error, not an exception, but `catch` works the same way.
+4. Do not try to fill the heap (`OutOfMemoryError`), that one can freeze your machine.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step10*'
+./mvnw -q test -Dtest='Step11*'
 ```
 
-Green means a copy is a different object with the same values, and your string comparison does not depend on object identity.
+Green means the sum is right and the overflow was caught.
 
 ## Stretch
 
-- Draw the stack and the heap for `Order a = new Order(...); Order b = a;`. How many objects are there?
-
-## Solution notes
-
-Local variables and method calls live on the stack. Objects live on the heap, and a variable of a class type only holds the reference. `Order b = a;` copies the reference, not the order. A common mistake is comparing strings with `==`: it sometimes works with literals (they are shared) and then fails with text coming from user input.
+- What is the biggest `n` for which `sumTo(n)` still works on your machine? How would a loop compare?
