@@ -1,34 +1,34 @@
-# Step 28: service
+# Step 29: dependency injection
 
 ## Goal
 
-The repository saves anything, even an order for a restaurant that is closed tonight. The rules about orders belong in one place, the service. Chapati Medina is closed, so Dhia cannot order from it. (Slide: Spring Boot 8/14, service.)
+`@Autowired` on a field works, but you cannot test the service without starting Spring, and the field can be changed by anyone. Ask for the repository in the constructor instead. Then the service can be tested with a fake repository in milliseconds. (Slide: Spring Boot 9/14, dependency injection.)
 
 ## Tasks
 
-- [ ] In `OrderService.place(Order order)`, throw `IllegalArgumentException` when the total is 0 or less.
-- [ ] Throw `RestaurantClosedException` (from step 19) when the restaurant is `"Chapati Medina"`. Keep the closed restaurants in a small fixed set.
-- [ ] Otherwise save the order with the repository and return the saved order.
+- [ ] Make the field `private final OrderRepository repo` and remove `@Autowired`.
+- [ ] Finish the constructor: it stores the repository in the field.
+- [ ] Run the tests. The new ones use a Mockito fake instead of the real database.
 
 ## Hints
 
-1. The `repo` field is already there. `@Autowired` asks Spring to fill it in.
-2. `Set.of("Chapati Medina")` is a handy fixed set, and `set.contains(name)` checks it.
-3. `repo.save(order)` returns the saved entity, with its id.
-4. Check the rules first, so nothing is saved for a refused order.
+1. With one constructor, Spring passes the needed beans in by itself, no annotation needed.
+2. A `final` field must be set in the constructor, which makes it impossible to forget.
+3. `this.repo = repo;`
+4. In the test, `new OrderService(fakeRepo)` is only possible because the dependency comes through the constructor.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step28*'
+./mvnw -q test -Dtest='Step29*'
 ```
 
-Green means good orders are saved, bad ones are refused, and nothing reaches the database in that case.
+Green means the service works with a fake repository, the field is `final`, nothing is `@Autowired` any more, and Spring can still build the bean.
+
+## Heads-up
+
+The constructor already exists but does nothing, so the service still runs inside Spring because the old `@Autowired` field is filled in. The new tests build the service by hand and show it does not work yet.
 
 ## Stretch
 
-- Move the check into a private method `checkRules(Order order)`. You will reuse it in step 31.
-
-## Solution notes
-
-The service is where business rules live: the controller does not know them and the repository does not care. Spring injected the repository into the field for us, you never created it. A common mistake is saving first and checking afterwards, which leaves invalid data in the database when the check fails.
+- Why does the test verify that `save` was never called for Chapati Medina?

@@ -10,12 +10,15 @@ import tn.jibli.repository.OrderRepository;
 @Service
 public class OrderService {
 
-    // for the workshop, the closed restaurants are a fixed list
     private static final Set<String> CLOSED_RESTAURANTS = Set.of("Chapati Medina");
 
-    // field injection: Spring fills this in. We will look at a better way in the next step.
+    // TODO(step-29): make this field final and remove @Autowired
     @Autowired
     private OrderRepository repo;
+
+    // TODO(step-29): store the repository that Spring passes in
+    public OrderService(OrderRepository repo) {
+    }
 
     public Order place(Order order) {
         checkRules(order);
