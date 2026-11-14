@@ -1,38 +1,32 @@
-# Step 12: encapsulation
+# Step 13: static and final
 
 ## Goal
 
-Private fields stop outsiders from writing, but nothing stops an order of -50 TND from being created. Make `Order` refuse invalid data, wherever it comes from. (Slide: Java 12/20, encapsulation.)
+The delivery fee of 4 TND is the same for every order, and Jibli wants to know how many orders were created. Both belong to the class, not to one order. (Slide: Java 13/20, static and final.)
 
 ## Tasks
 
-- [ ] Add `setTotal(double total)`. It throws `IllegalArgumentException` when the total is negative.
-- [ ] Add `setRestaurant(String)` and `setProduct(String)`. They throw `IllegalArgumentException` when the value is `null` or blank.
-- [ ] Change the constructor so it calls the three setters instead of assigning the fields directly.
+- [ ] Make `DELIVERY_FEE` a constant: `public static final double DELIVERY_FEE = 4.0`.
+- [ ] Add one shared counter `createdCount` that goes up each time an order is created. Only a valid order counts.
+- [ ] Implement `getCreatedCount()` and the package-private `resetCounter()` (the tests call it before each test).
+- [ ] Implement `totalWithFee()`: the order total plus the delivery fee.
 
 ## Hints
 
-1. A setter is a public method that changes a private field after checking the new value.
-2. `value == null || value.isBlank()` covers both bad cases.
-3. If the constructor uses the setters, the same rules apply to new objects and to later changes. Write each rule once.
-4. `throw new IllegalArgumentException("total must not be negative");`
+1. `static` means one copy for the whole class. `final` means it can never be reassigned.
+2. Constants are written in capitals with underscores.
+3. Increase the counter at the end of the constructor, after the setters have accepted the values.
+4. Call the method `totalWithFee()`, not `getTotalWithFee()`. We will turn orders into JSON later and a `get` method would show up as a field.
+5. Reach static members through the class name: `Order.DELIVERY_FEE`.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step12*'
+./mvnw -q test -Dtest='Step13*'
 ```
 
-Green means invalid values are rejected everywhere, and an order that failed validation keeps its old value.
-
-## Heads-up
-
-Expected: compile errors in `Step12EncapsulationTest` until the setters exist.
+Green means the constant is really `static final`, the counter counts only valid orders, and the fee is added.
 
 ## Stretch
 
-- Should a total of exactly 0 be allowed? Discuss, then decide where that rule belongs.
-
-## Solution notes
-
-Encapsulation means the object guards its own data, so no code anywhere can put it in an invalid state. Putting the checks in the setters and calling them from the constructor keeps every rule in one place. A common mistake is validating in the constructor only, and then letting a setter accept the very value the constructor refused.
+- What would happen if `createdCount` were not `static`?

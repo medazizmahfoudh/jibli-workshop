@@ -2,6 +2,12 @@ package tn.jibli;
 
 public class Order {
 
+    // TODO(step-13): this must be a constant, shared by all orders, with the value 4.0
+    public static double DELIVERY_FEE = 0.0;
+
+    // TODO(step-13): the number of orders created so far, shared by all orders
+    private static int createdCount = 0;
+
     private String restaurant;
     private String product;
     private double total;
@@ -9,10 +15,25 @@ public class Order {
     String note;
 
     public Order(String restaurant, String product, double total) {
-        // go through the setters so the same checks run for new objects too
         setRestaurant(restaurant);
         setProduct(product);
         setTotal(total);
+        // TODO(step-13): count this order
+    }
+
+    public static int getCreatedCount() {
+        // TODO(step-13)
+        throw new UnsupportedOperationException("TODO(step-13)");
+    }
+
+    static void resetCounter() {
+        // TODO(step-13)
+        throw new UnsupportedOperationException("TODO(step-13)");
+    }
+
+    public double totalWithFee() {
+        // TODO(step-13): total plus the delivery fee
+        throw new UnsupportedOperationException("TODO(step-13)");
     }
 
     protected String audit() {
