@@ -1,38 +1,30 @@
-# Step 29: dependency injection
+# Step 30: controller
 
 ## Goal
 
-`@Autowired` on a field works, but you cannot test the service without starting Spring, and the field can be changed by anyone. Ask for the repository in the constructor instead. Then the service can be tested with a fake repository in milliseconds. (Slide: Spring Boot 9/14, dependency injection.)
+Dhia taps "Order" in the app, and the phone sends the order as JSON. The controller receives it, turns it into an `Order`, and hands it to the service. (Slide: Spring Boot 10/14, controller.)
 
 ## Tasks
 
-- [ ] Make the field `private final OrderRepository repo` and remove `@Autowired`.
-- [ ] Finish the constructor: it stores the repository in the field.
-- [ ] Run the tests. The new ones use a Mockito fake instead of the real database.
+- [ ] Put `@RequestMapping("/orders")` on `OrderController`.
+- [ ] Inject `OrderService` through the constructor, as you did in step 29.
+- [ ] Add a method with `@PostMapping` that takes `@RequestBody Order order`, calls `service.place(order)`, and returns the saved order.
 
 ## Hints
 
-1. With one constructor, Spring passes the needed beans in by itself, no annotation needed.
-2. A `final` field must be set in the constructor, which makes it impossible to forget.
-3. `this.repo = repo;`
-4. In the test, `new OrderService(fakeRepo)` is only possible because the dependency comes through the constructor.
+1. `@RequestBody` tells Spring to read the JSON of the request and build an `Order` from it. It uses the setters.
+2. Whatever the method returns is written back as JSON.
+3. The controller does not check any rule. That is the service's job.
+4. `@PostMapping` with no path means `POST /orders`, because of the class-level `@RequestMapping`.
 
 ## Check yourself
 
 ```bash
-./mvnw -q test -Dtest='Step29*'
+./mvnw -q test -Dtest='Step30*'
 ```
 
-Green means the service works with a fake repository, the field is `final`, nothing is `@Autowired` any more, and Spring can still build the bean.
-
-## Heads-up
-
-The constructor already exists but does nothing, so the service still runs inside Spring because the old `@Autowired` field is filled in. The new tests build the service by hand and show it does not work yet.
+Green means a `POST /orders` with a JSON order succeeds and the response contains the same restaurant, product and total. The service is a fake in this test, so only the web layer is checked.
 
 ## Stretch
 
-- Why does the test verify that `save` was never called for Chapati Medina?
-
-## Solution notes
-
-Constructor injection makes the dependencies visible and required: you cannot build an `OrderService` without a repository. It also lets a plain unit test hand in a fake, with no Spring and no database. A common mistake is keeping the field non-final and `@Autowired` "just in case", which hides the dependency again.
+- Start the app and try the endpoint with curl: `curl -X POST localhost:8080/orders -H 'Content-Type: application/json' -d '{"restaurant":"Mamma Chemi","product":"Plat Healthy","total":25.0}'`.
