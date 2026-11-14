@@ -1,7 +1,6 @@
 package tn.jibli.service;
 
 import java.util.Set;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.jibli.exception.RestaurantClosedException;
 import tn.jibli.model.Order;
@@ -12,12 +11,11 @@ public class OrderService {
 
     private static final Set<String> CLOSED_RESTAURANTS = Set.of("Chapati Medina");
 
-    // TODO(step-29): make this field final and remove @Autowired
-    @Autowired
-    private OrderRepository repo;
+    private final OrderRepository repo;
 
-    // TODO(step-29): store the repository that Spring passes in
+    // constructor injection: Spring passes the repository in, a test can pass a fake
     public OrderService(OrderRepository repo) {
+        this.repo = repo;
     }
 
     public Order place(Order order) {

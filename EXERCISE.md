@@ -32,3 +32,7 @@ The constructor already exists but does nothing, so the service still runs insid
 ## Stretch
 
 - Why does the test verify that `save` was never called for Chapati Medina?
+
+## Solution notes
+
+Constructor injection makes the dependencies visible and required: you cannot build an `OrderService` without a repository. It also lets a plain unit test hand in a fake, with no Spring and no database. A common mistake is keeping the field non-final and `@Autowired` "just in case", which hides the dependency again.
